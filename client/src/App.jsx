@@ -11,18 +11,20 @@ function App() {
   return (
     <>
       <NavBar />
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/Home" element={<Home />} />
-          <Route path="/TODO" element={<Home />} />
-          <Route path="/Late" element={<Home />} />
-          <Route path="/Done" element={<Home />} />
-          <Route path="/Focus" element={<Focus />} />
-          <Route path="/Tasks" element={<Tasks />} />
-          <Route path="/Calendar" element={<Calendar />} />
-        </Routes>
-      </Router>
+      <div class="container">
+        <Router>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/Home" element={<Home />} />
+            <Route path="/TODO" element={<Home />} />
+            <Route path="/Late" element={<Home />} />
+            <Route path="/Done" element={<Home />} />
+            <Route path="/Focus" element={<Focus />} />
+            <Route path="/Tasks" element={<Tasks />} />
+            <Route path="/Calendar" element={<Calendar />} />
+          </Routes>
+        </Router>
+      </div>
     </>
   );
 }
