@@ -4,22 +4,40 @@
   gap: 40px;
   padding: 40px;
   min-height: calc(100vh - 60px);
-  align-items: center;
+  align-items: start;
   justify-items: center;
 }
 
-/* Left side - Sessions Graph */
+/* Left side - Sessions Graph & History */
 .focus-left {
   width: 100%;
   display: flex;
   justify-content: center;
 }
 
+.focus-left-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 500px;
+  max-height: calc(100vh - 120px);
+}
+
+.focus-left-content .session-history-container {
+  background: #b8a978;
+  border-radius: 15px;
+  padding: 20px 25px;
+  overflow-y: auto;
+  max-height: 300px;
+}
+
 /* Right side - Timer */
 .focus-right {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
+  padding-top: 20px;
 }
 
 .timer-circle {
@@ -220,4 +238,32 @@
 .timer-circle .pause-btn {
   background: linear-gradient(135deg, #fdcb6e, #e17055);
   color: white;
+}
+
+/* Sessions Graph - Focus page overrides */
+.focus-left .sessions-graph-container {
+  padding: 25px 30px;
+  width: 100%;
+}
+
+.focus-left .graph-wrapper {
+  height: 200px;
+}
+
+.focus-left .graph-y-axis {
+  height: 200px;
+  font-size: 0.9rem;
+}
+
+.focus-left .graph-area {
+  height: 200px;
+}
+
+.focus-left .x-label {
+  font-size: 0.9rem;
+}
+
+.focus-left .sessions-graph-container h2 {
+  font-size: 1.3rem;
+  margin-bottom: 15px;
 }

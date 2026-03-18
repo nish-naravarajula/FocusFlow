@@ -1,23 +1,28 @@
 .nav-item {
-  padding: 10px 20px;
-  border-radius: 5px;
+  padding: 12px 30px;
+  border-radius: 12px 12px 0 0;
   transition: all 0.2s ease;
   background: #b8a978;
+  position: relative;
+  margin-bottom: -1px;
 }
 
 .nav-item a {
   text-decoration: none;
   color: #1a1a2e;
-  font-size: 1rem;
+  font-size: 1.1rem;
   font-weight: 500;
+  font-family: "Georgia", serif;
+  font-style: italic;
 }
 
 .nav-item:hover {
-  background: #a89a6e;
+  background: #bfae7d;
 }
 
 .nav-item.active {
-  background: #5ba4a4;
+  background: #c9b489;
+  padding-bottom: 15px;
 }
 
 .nav-item.active a {

@@ -1,39 +1,20 @@
 .nav-bar {
   display: flex;
-  align-items: center;
-  padding-top: 16px;
-  padding-left: 16px;
-  background-color: #775d28;
-  gap: -16px;
-  flex-direction: row;
-}
-
-.companyholder {
-  background-color: #375c6f;
-  padding: 8px;
-  border: 3px solid black;
-  border-bottom: 0px;
-}
-
-.nav-bar h1 {
-  font-weight: 600;
-  font-size: 30px;
-}
-
-.nav-bar {
-  display: flex;
-  align-items: center;
-  padding: 10px 20px;
-  background: #c9b489;
-  gap: 10px;
+  align-items: flex-end;
+  padding: 15px 20px 0;
+  background: #d4c9a8;
+  gap: 5px;
 }
 
 .companyholder h1 {
   background: #5ba4a4;
-  padding: 8px 15px;
-  border-radius: 5px;
+  padding: 10px 18px;
+  border-radius: 8px;
   color: #1a1a2e;
-  font-size: 1.25rem;
+  font-size: 1.3rem;
+  font-family: "Georgia", serif;
+  margin-right: 20px;
+  margin-bottom: 0;
 }
 
 .nav-user {
@@ -41,9 +22,8 @@
   display: flex;
   align-items: center;
   gap: 15px;
-  padding: 8px 15px;
-  background: #b8a978;
-  border-radius: 8px;
+  padding: 10px 15px;
+  margin-bottom: 8px;
 }
 
 .nav-user span {

@@ -53,6 +53,22 @@ const SessionsGraph = ({ refreshTrigger }) => {
 
   const days = ["M", "T", "W", "Th", "F", "S", "Su"];
 
+  // Generate line path
+  const generateLinePath = () => {
+    const graphWidth = 100;
+    const graphHeight = 100;
+    const padding = 0;
+    const stepX = (graphWidth - padding * 2) / (weekData.length - 1);
+
+    const points = weekData.map((value, index) => {
+      const x = padding + index * stepX;
+      const y = graphHeight - (value / maxValue) * graphHeight;
+      return `${x},${y}`;
+    });
+
+    return `M ${points.join(" L ")}`;
+  };
+
   return (
     <div className="sessions-graph-container">
       <h2>Sessions</h2>
@@ -62,16 +78,29 @@ const SessionsGraph = ({ refreshTrigger }) => {
           <span>{maxValue / 2}</span>
           <span>0</span>
         </div>
-        <div className="graph-bars">
-          {weekData.map((value, index) => (
-            <div key={days[index]} className="bar-column">
-              <div
-                className="bar"
-                style={{ height: `${(value / maxValue) * 100}%` }}
-              />
-              <span className="bar-label">{days[index]}</span>
-            </div>
-          ))}
+        <div className="graph-area">
+          <svg
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
+            className="line-graph"
+          >
+            <path
+              d={generateLinePath()}
+              fill="none"
+              stroke="#1a1a2e"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              vectorEffect="non-scaling-stroke"
+            />
+          </svg>
+          <div className="graph-x-axis">
+            {days.map((day) => (
+              <span key={day} className="x-label">
+                {day}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     </div>

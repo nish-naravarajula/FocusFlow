@@ -11,6 +11,7 @@ body {
 
 .app {
   min-height: 100vh;
+  background-color: #c9b489;
 }
 
 .app-title {
@@ -21,6 +22,7 @@ body {
 }
 
 .main-content {
+  background: #c9b489;
   min-height: calc(100vh - 60px);
 }
 
