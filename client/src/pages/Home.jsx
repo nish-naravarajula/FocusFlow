@@ -1,18 +1,15 @@
-import { useState } from "react";
 import "./Home.css";
 import TaskBar from "../components/Nav/task-prog-bar.jsx";
 import TaskItem from "../components/Tasks/task-item.jsx";
+import SessionsGraph from "../components/Sessions/SessionsGraph.jsx";
+import StreakDisplay from "../components/Sessions/StreakDisplay.jsx";
 
-function Home({ progress }) {
-
-    
-
+function Home({ refreshTrigger }) {
   return (
     <>
-      <div class="mainpage row">
-
+      <div className="mainpage row">
         {/* OVERVIEW COL */}
-        <div class="column holder overview col-3">
+        <div className="column holder overview col-3">
           <h2>Overview:</h2>
           <ul>
             <li>Task 1</li>
@@ -28,13 +25,14 @@ function Home({ progress }) {
         </div>
 
         {/* STAT COL */}
-        <div class="column col-6">
-          <div class="holder stats">
-            {/* TODO GRAPH STATS */}
+        <div className="column col-6">
+          <div className="holder stats">
             <h2>Focus Stats</h2>
+            <SessionsGraph refreshTrigger={refreshTrigger} />
+            <StreakDisplay refreshTrigger={refreshTrigger} />
           </div>
-          <div class="tasks holder">
-            <div class="holder task">
+          <div className="tasks holder">
+            <div className="holder task">
               <h4>Task 1</h4>
               <p>
                 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quam
@@ -43,18 +41,17 @@ function Home({ progress }) {
                 fugiat! Ad eligendi ullam voluptatibus!
               </p>
             </div>
-            <div class="holder more">
+            <div className="holder more">
               <h5>More</h5>
             </div>
           </div>
         </div>
 
         {/* PROGRESS COL */}
-        <div class="column holder prog col-3">
-          {/* TODO: PROGRESS CIRCLE */}
-          <div class="prog-circle"></div>
+        <div className="column holder prog col-3">
+          <div className="prog-circle"></div>
           <TaskBar></TaskBar>
-          <div class="task-items">
+          <div className="task-items">
             <TaskItem
               name="task 1"
               desc="Lorem ipsum dolor sit amet consectetur, adipisicing elit."
