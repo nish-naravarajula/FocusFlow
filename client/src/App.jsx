@@ -1,121 +1,73 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
+import NavBar from "./components/Nav/nav-bar.jsx";
+import TaskBar from "./components/Nav/task-prog-bar.jsx";
+import TaskItem from "./components/Tasks/task-item.jsx";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+      <NavBar />
+      <div class="container">
+        <div class="mainpage row">
+          <div class="column holder overview col-3">
+            <h2>Overview:</h2>
+            <ul>
+              <li>Task 1</li>
+              <li>Task 2</li>
+              <li>Task 3</li>
+              <li>Task 4</li>
+              <li>Task 5</li>
+              <li>Task 6</li>
+              <li>Task 7</li>
+              <li>Task 8</li>
+              <li>Task 9</li>
+            </ul>
+          </div>
+          <div class="column col-6">
+            <div class="holder stats">
+              {/* TODO GRAPH STATS */}
+              <h2>Focus Stats</h2>
+            </div>
+            <div class="tasks holder">
+              <div class="holder task">
+                <h4>Task 1</h4>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quam
+                  nemo, non laudantium tempore soluta ipsam, veritatis
+                  perspiciatis ad in accusamus, rem neque optio voluptates
+                  aliquam fugiat! Ad eligendi ullam voluptatibus!
+                </p>
+              </div>
+              <div class="holder more">
+                <h5>More</h5>
+              </div>
+            </div>
+          </div>
+          <div class="column holder prog col-3">
+            {/* TODO: PROGRESS CIRCLE */}
+            <div class="prog-circle"></div>
+            <TaskBar></TaskBar>
+            <div class="task-items">
+              <TaskItem
+                name="task 1"
+                desc="Lorem ipsum dolor sit amet consectetur, adipisicing elit."
+                complete="true"
+              ></TaskItem>
+              <TaskItem
+                name="task 2"
+                desc="Lorem ipsum dolor sit amet consectetur, adipisicing elit."
+              ></TaskItem>
+              <TaskItem
+                name="task 3"
+                desc="Lorem ipsum dolor sit amet consectetur, adipisicing elit."
+              ></TaskItem>
+            </div>
+          </div>
         </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
+      </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

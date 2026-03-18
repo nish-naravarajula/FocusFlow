@@ -1,0 +1,21 @@
+.nav-item {
+  background-color: #a68c57;
+  padding: 8px;
+  border-radius: 10px 10px 0 0;
+  border: 3px solid #a68c57;
+  border-bottom: 0px;
+  text-align: center;
+}
+
+.active {
+  background-color: #c9b489;
+  border: 3px solid #c9b489;
+  border-bottom: 0px;
+}
+
+
+.nav-bar a {
+  font-size: 24px;
+  color: black;
+  text-decoration: none;
+}
