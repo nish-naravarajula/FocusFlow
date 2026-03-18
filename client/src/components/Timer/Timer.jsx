@@ -10,6 +10,34 @@ const Timer = ({ onSessionComplete }) => {
   const [sessionType, setSessionType] = useState("work");
   const intervalRef = useRef(null);
 
+  // Play sound function
+  const playSound = () => {
+    const audioContext = new (
+      window.AudioContext || window.webkitAudioContext
+    )();
+
+    // Play 3 beeps
+    [0, 0.3, 0.6].forEach((delay) => {
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+
+      oscillator.frequency.value = 800;
+      oscillator.type = "sine";
+
+      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime + delay);
+      gainNode.gain.exponentialRampToValueAtTime(
+        0.01,
+        audioContext.currentTime + delay + 0.2,
+      );
+
+      oscillator.start(audioContext.currentTime + delay);
+      oscillator.stop(audioContext.currentTime + delay + 0.2);
+    });
+  };
+
   useEffect(() => {
     if (isRunning && timeLeft > 0) {
       intervalRef.current = setInterval(() => {
@@ -25,6 +53,9 @@ const Timer = ({ onSessionComplete }) => {
   const handleSessionComplete = async () => {
     setIsRunning(false);
     clearInterval(intervalRef.current);
+
+    // Play sound
+    playSound();
 
     const token = localStorage.getItem("token");
     if (token) {

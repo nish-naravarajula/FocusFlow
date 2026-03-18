@@ -1,0 +1,113 @@
+.home-page {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 20px;
+  padding: 25px 30px;
+  min-height: calc(100vh - 60px);
+}
+
+.home-left,
+.home-center,
+.home-right {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Left Column - Tasks */
+.home-left {
+  background: #b8a978;
+  border-radius: 15px;
+  padding: 20px;
+}
+
+.home-left h2 {
+  color: #1a1a2e;
+  margin-bottom: 10px;
+}
+
+.task-placeholder {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.placeholder-note {
+  font-style: italic;
+  color: #1a1a2e;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+/* Center Column */
+.home-center {
+  gap: 20px;
+}
+
+.history-box {
+  background: #b8a978;
+  border-radius: 15px;
+  padding: 20px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.history-box h2 {
+  color: #1a1a2e;
+  margin-bottom: 15px;
+  font-size: 1.25rem;
+}
+
+.history-box .session-history-container {
+  background: transparent;
+  padding: 0;
+  margin: 0;
+}
+
+.history-box .session-history-container h3 {
+  display: none;
+}
+
+/* Right Column - Stats */
+.home-right {
+  background: #b8a978;
+  border-radius: 15px;
+  padding: 20px;
+}
+
+.home-right h2 {
+  color: #1a1a2e;
+  margin-bottom: 15px;
+}
+
+.home-right .streak-container {
+  margin: 0;
+}
+
+.home-right .streak-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.home-right .streak-card {
+  padding: 12px 8px;
+}
+
+.home-right .streak-icon {
+  font-size: 1rem;
+}
+
+.home-right .streak-value {
+  font-size: 1.3rem;
+}
+
+.home-right .streak-label {
+  font-size: 0.6rem;
+}
+
+.task-status {
+  margin-top: 20px;
+  flex: 1;
+}

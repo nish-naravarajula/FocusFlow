@@ -29,4 +29,5 @@ function TaskBar() {
   );
 }
 
+TaskBar.propTypes = {};
 export default TaskBar;

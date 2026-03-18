@@ -1,19 +1,16 @@
-import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import PropTypes from "prop-types";
 import "./nav-bar.css";
 import NavItem from "./nav-item";
 
-const STORAGE_KEY = "focusFlow.activeNav";
-
-function NavBar() {
-  const [activeItem, setActiveItem] = useState(() => {
-    return localStorage.getItem(STORAGE_KEY) ?? "Home";
-  });
-
+function NavBar({ user, onLogout }) {
+  const location = useLocation();
   const navItems = ["Home", "Focus", "Tasks", "Calendar"];
 
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, activeItem);
-  }, [activeItem]);
+  const getActivePage = () => {
+    const path = location.pathname.slice(1); // remove leading /
+    return path.charAt(0).toUpperCase() + path.slice(1) || "Home";
+  };
 
   return (
     <div className="nav-bar">
@@ -22,15 +19,29 @@ function NavBar() {
       </div>
 
       {navItems.map((name) => (
-        <NavItem
-          key={name}
-          name={name}
-          active={activeItem === name}
-          onClick={() => setActiveItem(name)}
-        />
+        <NavItem key={name} name={name} active={getActivePage() === name} />
       ))}
+
+      {user && (
+        <div className="nav-user">
+          <span>{user.username}</span>
+          <button type="button" onClick={onLogout}>
+            Logout
+          </button>
+        </div>
+      )}
     </div>
   );
 }
+
+NavBar.propTypes = {
+  user: PropTypes.object,
+  onLogout: PropTypes.func,
+};
+
+NavBar.defaultProps = {
+  user: null,
+  onLogout: () => {},
+};
 
 export default NavBar;

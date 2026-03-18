@@ -19,3 +19,53 @@
   font-weight: 600;
   font-size: 30px;
 }
+
+.nav-bar {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  background: #c9b489;
+  gap: 10px;
+}
+
+.companyholder h1 {
+  background: #5ba4a4;
+  padding: 8px 15px;
+  border-radius: 5px;
+  color: #1a1a2e;
+  font-size: 1.25rem;
+}
+
+.nav-user {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 8px 15px;
+  background: #b8a978;
+  border-radius: 8px;
+}
+
+.nav-user span {
+  color: #1a1a2e;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.nav-user button {
+  padding: 8px 18px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+}
+
+.nav-user button:hover {
+  background-color: #c0392b;
+  transform: translateY(-1px);
+}

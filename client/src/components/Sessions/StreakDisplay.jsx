@@ -33,38 +33,40 @@ const StreakDisplay = ({ refreshTrigger }) => {
         const data = await res.json();
         setStats(data);
       }
-    } catch (error) {
-      console.error("Failed to fetch stats:", error);
+    } catch (err) {
+      console.error("Failed to fetch stats:", err);
     } finally {
       setLoading(false);
     }
   };
 
   if (loading) {
-    return <div className="streak-loading">Loading stats...</div>;
+    return <div className="streak-loading">Loading...</div>;
   }
 
   return (
     <div className="streak-container">
-      <div className="stat-card streak">
-        <span className="stat-icon">🔥</span>
-        <span className="stat-value">{stats.streak}</span>
-        <span className="stat-label">Day Streak</span>
-      </div>
-      <div className="stat-card sessions">
-        <span className="stat-icon">✅</span>
-        <span className="stat-value">{stats.totalSessions}</span>
-        <span className="stat-label">Total Sessions</span>
-      </div>
-      <div className="stat-card minutes">
-        <span className="stat-icon">⏱️</span>
-        <span className="stat-value">{stats.totalMinutes}</span>
-        <span className="stat-label">Total Minutes</span>
-      </div>
-      <div className="stat-card average">
-        <span className="stat-icon">📊</span>
-        <span className="stat-value">{stats.averagePerDay}</span>
-        <span className="stat-label">Avg Min/Day</span>
+      <div className="streak-grid">
+        <div className="streak-card">
+          <span className="streak-icon">🔥</span>
+          <span className="streak-value">{stats.streak}</span>
+          <span className="streak-label">Day Streak</span>
+        </div>
+        <div className="streak-card">
+          <span className="streak-icon">✅</span>
+          <span className="streak-value">{stats.totalSessions}</span>
+          <span className="streak-label">Sessions</span>
+        </div>
+        <div className="streak-card">
+          <span className="streak-icon">⏱️</span>
+          <span className="streak-value">{stats.totalMinutes}</span>
+          <span className="streak-label">Minutes</span>
+        </div>
+        <div className="streak-card">
+          <span className="streak-icon">📊</span>
+          <span className="streak-value">{stats.averagePerDay}</span>
+          <span className="streak-label">Avg/Day</span>
+        </div>
       </div>
     </div>
   );
