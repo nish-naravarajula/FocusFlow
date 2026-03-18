@@ -1,0 +1,21 @@
+.nav-bar {
+  display: flex;
+  align-items: center;
+  padding-top: 16px;
+  padding-left: 16px;
+  background-color: #775d28;
+  gap: -16px;
+  flex-direction: row;
+}
+
+.companyholder {
+  background-color: #375c6f;
+  padding: 8px;
+  border: 3px solid black;
+  border-bottom: 0px;
+}
+
+.nav-bar h1 {
+  font-weight: 600;
+  font-size: 30px;
+}

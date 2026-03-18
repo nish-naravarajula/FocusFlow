@@ -1,0 +1,6 @@
+.item {
+  margin: 5px;
+  border: 3px dashed black;
+  border-radius: 20px;
+  padding: 10px;
+}
