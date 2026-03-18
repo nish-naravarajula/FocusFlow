@@ -33,7 +33,7 @@ router.post("/register", async (req, res) => {
     const token = jwt.sign(
       { userId: result.insertedId, username },
       process.env.JWT_SECRET,
-      { expiresIn: "7d" },
+      { expiresIn: "7d" }
     );
 
     res.status(201).json({
@@ -66,7 +66,7 @@ router.post("/login", async (req, res) => {
     const token = jwt.sign(
       { userId: user._id, username: user.username },
       process.env.JWT_SECRET,
-      { expiresIn: "7d" },
+      { expiresIn: "7d" }
     );
 
     res.json({
@@ -85,7 +85,7 @@ router.get("/me", authenticateToken, async (req, res) => {
     const users = getCollection("users");
     const user = await users.findOne(
       { _id: new ObjectId(req.user.userId) },
-      { projection: { password: 0 } },
+      { projection: { password: 0 } }
     );
 
     if (!user) {

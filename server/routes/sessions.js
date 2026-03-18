@@ -71,7 +71,7 @@ router.get("/stats", async (req, res) => {
           const d = new Date(s.completedAt);
           d.setHours(0, 0, 0, 0);
           return d.getTime();
-        }),
+        })
       ),
     ].sort((a, b) => b - a);
 
@@ -112,7 +112,7 @@ router.put("/:id", async (req, res) => {
     const result = await sessions.findOneAndUpdate(
       { _id: new ObjectId(id), userId: new ObjectId(req.user.userId) },
       { $set: { duration, label, type, updatedAt: new Date() } },
-      { returnDocument: "after" },
+      { returnDocument: "after" }
     );
 
     if (!result) {

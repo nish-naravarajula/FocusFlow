@@ -30,7 +30,7 @@ const Timer = ({ onSessionComplete }) => {
       gainNode.gain.setValueAtTime(0.3, audioContext.currentTime + delay);
       gainNode.gain.exponentialRampToValueAtTime(
         0.01,
-        audioContext.currentTime + delay + 0.2,
+        audioContext.currentTime + delay + 0.2
       );
 
       oscillator.start(audioContext.currentTime + delay);

@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import "./Home.css";
 import TaskBar from "../components/Nav/task-prog-bar.jsx";
 import TaskItem from "../components/Tasks/task-item.jsx";
@@ -71,5 +72,13 @@ function Home({ refreshTrigger }) {
     </>
   );
 }
+
+Home.propTypes = {
+  refreshTrigger: PropTypes.number,
+};
+
+Home.defaultProps = {
+  refreshTrigger: 0,
+};
 
 export default Home;
