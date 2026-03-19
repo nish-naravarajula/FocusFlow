@@ -45,7 +45,7 @@ function Home({ refreshTrigger }) {
     setError("");
 
     try {
-      const res = await fetch("http://localhost:5000/api/tasks", {
+      const res = await fetch("https://focusflow-vexk.onrender.com/api/tasks", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -74,7 +74,7 @@ function Home({ refreshTrigger }) {
     }
 
     try {
-      const res = await fetch("http://localhost:5000/api/tasks", {
+      const res = await fetch("https://focusflow-vexk.onrender.com/api/tasks", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -111,14 +111,17 @@ function Home({ refreshTrigger }) {
     }
 
     try {
-      const res = await fetch(`http://localhost:5000/api/tasks/${taskId}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ done: updatedDone }),
-      });
+      const res = await fetch(
+        `https://focusflow-vexk.onrender.com/api/tasks/${taskId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ done: updatedDone }),
+        }
+      );
 
       const data = await res.json();
       if (!res.ok) {
@@ -144,14 +147,17 @@ function Home({ refreshTrigger }) {
     }
 
     try {
-      const res = await fetch(`http://localhost:5000/api/tasks/${taskId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ id: taskId }),
-      });
+      const res = await fetch(
+        `https://focusflow-vexk.onrender.com/api/tasks/${taskId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ id: taskId }),
+        }
+      );
 
       const data = await res.json();
       if (!res.ok) {

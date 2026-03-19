@@ -60,18 +60,21 @@ const Timer = ({ onSessionComplete }) => {
     const token = localStorage.getItem("token");
     if (token) {
       try {
-        const res = await fetch("http://localhost:5000/api/sessions", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            duration,
-            label: label || "Focus Session",
-            type: sessionType,
-          }),
-        });
+        const res = await fetch(
+          "https://focusflow-vexk.onrender.com/api/sessions",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              duration,
+              label: label || "Focus Session",
+              type: sessionType,
+            }),
+          }
+        );
 
         if (res.ok) {
           const session = await res.json();

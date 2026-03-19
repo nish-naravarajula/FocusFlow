@@ -23,11 +23,14 @@ const StreakDisplay = ({ refreshTrigger }) => {
     }
 
     try {
-      const res = await fetch("http://localhost:5000/api/sessions/stats", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await fetch(
+        "https://focusflow-vexk.onrender.com/api/sessions/stats",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (res.ok) {
         const data = await res.json();

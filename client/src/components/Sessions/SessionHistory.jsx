@@ -23,7 +23,7 @@ const SessionHistory = ({ refreshTrigger }) => {
 
     try {
       const res = await fetch(
-        `http://localhost:5000/api/sessions?page=${page}&limit=10`,
+        `https://focusflow-vexk.onrender.com/api/sessions?page=${page}&limit=10`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -50,12 +50,15 @@ const SessionHistory = ({ refreshTrigger }) => {
   const handleDelete = async (id) => {
     const token = localStorage.getItem("token");
     try {
-      const res = await fetch(`http://localhost:5000/api/sessions/${id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await fetch(
+        `https://focusflow-vexk.onrender.com/api/sessions/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (res.ok) {
         setSessions(sessions.filter((s) => s._id !== id));

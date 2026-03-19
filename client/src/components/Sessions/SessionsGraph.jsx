@@ -15,11 +15,14 @@ const SessionsGraph = ({ refreshTrigger }) => {
     if (!token) return;
 
     try {
-      const res = await fetch("http://localhost:5000/api/sessions?limit=500", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await fetch(
+        "https://focusflow-vexk.onrender.com/api/sessions?limit=500",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (res.ok) {
         const data = await res.json();
