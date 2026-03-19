@@ -5,6 +5,8 @@ import CreateTask from "../components/Tasks/create-task.jsx";
 import TaskItem from "../components/Tasks/task-item.jsx";
 import SessionsGraph from "../components/Sessions/SessionsGraph.jsx";
 import StreakDisplay from "../components/Sessions/StreakDisplay.jsx";
+import TaskNav from "../components/Tasks/task-nav.jsx";
+import TaskList from "../components/Tasks/task-list.jsx";
 
 function normalizeTask(task) {
   const rawId = task._id ?? task.id;
@@ -21,8 +23,8 @@ function normalizeTask(task) {
 
 function Home({ refreshTrigger }) {
   const [tasks, setTasks] = useState([]);
-  const [isCreating, setIsCreating] = useState(false);
   const [status, setStatus] = useState("todo");
+  const [isCreating, setIsCreating] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -78,6 +80,7 @@ function Home({ refreshTrigger }) {
         body: JSON.stringify({
           name: task.name,
           desc: task.desc,
+          type: task.type,
           due: task.due,
         }),
       });
@@ -127,47 +130,84 @@ function Home({ refreshTrigger }) {
     }
   };
 
-const now = new Date();
-const startOfWeek = new Date(now);
-startOfWeek.setHours(0, 0, 0, 0);
-startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
-const endOfWeek = new Date(startOfWeek);
-endOfWeek.setDate(endOfWeek.getDate() + 7);
+  const deleteTask = async (taskId) => {
+    const task = tasks.find((t) => t.id === taskId);
+    if (!task) return;
 
-const inWeek = (task) => {
-  const due = new Date(task.due).valueOf();
-  return due >= startOfWeek.valueOf() && due < endOfWeek.valueOf();
-};
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setError("Not Authenticated");
+      return;
+    }
 
-const late = (task) => {
-  const due = new Date(task.due).valueOf();
-  return due < new Date() && !task.done;
-};
+    try {
+      const res = await fetch(`http://localhost:5000/api/tasks/${taskId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ id: taskId }),
+      });
 
-const done = (task) => {
-  return task.done;
-};
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to delete task");
+      }
+      setTasks((prev) => prev.filter((t) => t.id !== taskId));
+    } catch (err) {
+      setError(err.message);
+    }
+  };
 
-const todo = (task) => {
-  return !task.done;
-};
+  const now = new Date();
+  const startOfWeek = new Date(now);
+  startOfWeek.setHours(0, 0, 0, 0);
+  startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
+  const endOfWeek = new Date(startOfWeek);
+  endOfWeek.setDate(endOfWeek.getDate() + 7);
 
-const getFunc = (status) =>  {
-  return (status === "late") ? late : (status === "done") ? done : todo;
-};
+  const inWeek = (task) => {
+    const due = new Date(task.due).valueOf();
+    return due >= startOfWeek.valueOf() && due < endOfWeek.valueOf();
+  };
+
+  const late = (task) => {
+    const due = new Date(task.due).valueOf();
+    return due < new Date() && !task.done;
+  };
+
+  const done = (task) => {
+    return task.done;
+  };
+
+  const todo = (task) => {
+    return !task.done;
+  };
+
+  const getFunc = (status) => {
+    return status === "late" ? late : status === "done" ? done : todo;
+  };
 
   return (
     <>
       <div className="mainpage row">
-
-
         {/* OVERVIEW COL */}
         <div className="column holder overview col-3">
           <h2>Overview:</h2>
           <ul>
-            {tasks.filter(todo).splice(0,20).map((task) => (
-              <li className={late(task) ? "late" : ""}>{task.name}{!inWeek(task) ? ` ${new Date(task.due).getMonth()+1}/${new Date(task.due).getDate()}`: ""}</li>
-            ))}
+            {tasks
+              .filter(todo)
+              .slice(0, 20)
+              .reverse()
+              .map((task) => (
+                <li className={late(task) ? "late" : ""}>
+                  {task.name}
+                  {!inWeek(task)
+                    ? ` ${new Date(task.due).getMonth() + 1}/${new Date(task.due).getDate()}`
+                    : ""}
+                </li>
+              ))}
           </ul>
         </div>
 
@@ -182,16 +222,12 @@ const getFunc = (status) =>  {
             <div className="holder add" onClick={() => setIsCreating(true)}>
               <h5>Add</h5>
             </div>
-            {tasks.filter(inWeek).map((task) => (
-              <TaskItem
-                key={task.id}
-                name={task.name}
-                desc={task.desc}
-                datetime={task.due}
-                done={task.done}
-                onClick={() => toggleComplete(task.id)}
-              />
-            ))}
+            <TaskList
+              tasks={tasks}
+              filter1={inWeek}
+              toggleComplete={toggleComplete}
+              deleteTask={deleteTask}
+            />
             <div className="holder more">
               <h5>More</h5>
             </div>
@@ -206,22 +242,15 @@ const getFunc = (status) =>  {
         {/* PROGRESS COL */}
         <div className="column holder prog col-3">
           <div className="prog-circle"></div>
-          <div className="task-bar">
-            <div className={`nav-item ${(status === "late" ? "active" : "")}`} onClick={() => setStatus("late")}><a>Late</a></div>
-            <div className={`nav-item ${(status === "todo" ? "active" : "")}`} onClick={() => setStatus("todo")}><a>TODO</a></div>
-            <div className={`nav-item ${(status === "done" ? "active" : "")}`} onClick={() => setStatus("done")}><a>Done</a></div>
-          </div>
-          <div className="task-items">
-            {tasks.filter(inWeek).filter(getFunc(status)).map((task) => (
-              <TaskItem
-                key={task.id}
-                name={task.name}
-                desc={task.desc}
-                datetime={task.due}
-                done={task.done}
-                onClick={() => toggleComplete(task.id)}
-              />
-            ))}
+          <TaskNav status={status} setStatus={setStatus} />
+          <div className="tasks">
+            <TaskList
+              tasks={tasks}
+              filter1={inWeek}
+              filter2={getFunc(status)}
+              toggleComplete={toggleComplete}
+              deleteTask={deleteTask}
+            />
           </div>
         </div>
       </div>

@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import "./task-item.css";
 
 function TaskItem({
@@ -6,7 +5,8 @@ function TaskItem({
   desc = "not found",
   datetime = new Date(),
   done = false,
-  onClick
+  Finish,
+  Delete,
 }) {
   const weekday = [
     "Sunday",
@@ -22,35 +22,46 @@ function TaskItem({
   const time = new Date(datetime);
 
   let status = weekday[time.getDay()];
-  let btnText = "Finish"
+  let btnText = "Finish";
   if (currTime.valueOf() > time) {
     status = "Late";
   }
 
   if (done) {
     status = "Done";
-    btnText = "Drop"
+    btnText = "Drop";
+  }
+
+  const now = new Date();
+  const startOfWeek = new Date(now);
+  startOfWeek.setHours(0, 0, 0, 0);
+  startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
+  const endOfWeek = new Date(startOfWeek);
+  endOfWeek.setDate(endOfWeek.getDate() + 7);
+
+  const inWeek = () => {
+    const due = time.valueOf();
+    return due >= startOfWeek.valueOf() && due < endOfWeek.valueOf();
+  };
+
+  if(!inWeek()){
+    status =  `${status} ${time.getMonth() + 1}/${time.getDate()}/${time.getFullYear()}`
   }
 
   return (
-    <div class="item">
+    <div className="item">
       <p>
         {name} • {status}
       </p>
-      <p class="desc">{desc}</p>
-      <btn class="finish" onClick={onClick}>
+      <p className="desc">{desc}</p>
+      <button className="button finish" onClick={Finish}>
         {btnText}
-      </btn>
+      </button>
+      <button className="button delete" onClick={Delete}>
+        Delete
+      </button>
     </div>
   );
 }
-
-TaskItem.propTypes = {
-  name: PropTypes.string,
-  desc: PropTypes.string,
-  datetime: PropTypes.instanceOf(Date),
-  done: PropTypes.bool,
-  onClick: PropTypes.func,
-};
 
 export default TaskItem;

@@ -5,7 +5,7 @@ import NavItem from "./nav-item";
 
 function NavBar({ user, onLogout }) {
   const location = useLocation();
-  const navItems = ["Home", "Focus", "Tasks", "Calendar"];
+  const navItems = ["Home", "Focus", "Tasks"];
 
   const getActivePage = () => {
     const path = location.pathname.slice(1); // remove leading /

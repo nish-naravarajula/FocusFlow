@@ -6,20 +6,20 @@ import "./Focus.css";
 
 const Focus = ({ refreshTrigger, onSessionComplete }) => {
   return (
-    <div className="focus-page">
-      <div className="focus-left">
-        <div className="focus-left-content">
-          <SessionsGraph refreshTrigger={refreshTrigger} />
-          <SessionHistory refreshTrigger={refreshTrigger} />
+      <div className="focus-page">
+        <div className="focus-left">
+          <div className="focus-left-content">
+            <SessionsGraph refreshTrigger={refreshTrigger} />
+            <SessionHistory refreshTrigger={refreshTrigger} />
+          </div>
         </div>
-      </div>
 
-      <div className="focus-right">
-        <div className="timer-circle">
-          <Timer onSessionComplete={onSessionComplete} />
+        <div className="focus-right">
+          <div className="timer-circle">
+            <Timer onSessionComplete={onSessionComplete} />
+          </div>
         </div>
       </div>
-    </div>
   );
 };
 

@@ -33,18 +33,15 @@
   width: 100%;
 }
 
-.task-bar{
-  justify-content: center;
-  display: flex;
-  flex-direction: row;
-}
-
 .tasks {
   display: flex;
   flex-direction: column;
   gap: 10px;
   flex: 1;
   overflow-y: scroll;
+  background-color: #c9b489;
+  width: 100%;
+  padding-top: 10px;
 }
 
 .more,

@@ -6,7 +6,6 @@ import Login from "./components/Auth/Login";
 import Home from "./pages/Home.jsx";
 import Focus from "./pages/Focus.jsx";
 import Tasks from "./pages/Tasks.jsx";
-import Calendar from "./pages/Calendar.jsx";
 import "./App.css";
 
 function App() {
@@ -83,10 +82,6 @@ function App() {
             <Route
               path="/tasks"
               element={<Tasks/>}
-            />
-            <Route
-              path="/calendar"
-              element={<Calendar/>}
             />
           </Routes>
         </main>

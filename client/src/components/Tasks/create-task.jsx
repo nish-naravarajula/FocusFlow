@@ -4,12 +4,14 @@ import "./create-task.css";
 function CreateTask({ open, onClose, onCreate }) {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
+  const [type, setType] = useState("work");
   const [due, setDue] = useState("");
 
   useEffect(() => {
     if (open) {
       setName("");
       setDesc("");
+      setType("work");
       setDue("");
     }
   }, [open]);
@@ -26,6 +28,7 @@ function CreateTask({ open, onClose, onCreate }) {
       id: crypto?.randomUUID?.() || `${Date.now()}`,
       name: name.trim(),
       desc: desc.trim(),
+      type: type.trim(),
       due: due ? new Date(due).toISOString() : null,
       done: false,
     };
@@ -36,7 +39,10 @@ function CreateTask({ open, onClose, onCreate }) {
 
   return (
     <div className="create-task-overlay" onClick={onClose}>
-      <div className="create-task-modal" onClick={(event) => event.stopPropagation()}>
+      <div
+        className="create-task-modal"
+        onClick={(event) => event.stopPropagation()}
+      >
         <header className="create-task-header">
           <h2>Create Task</h2>
           <button className="create-task-close" type="button" onClick={onClose}>
@@ -60,8 +66,18 @@ function CreateTask({ open, onClose, onCreate }) {
             <textarea
               value={desc}
               onChange={(event) => setDesc(event.target.value)}
-              placeholder="Optional description"
+              placeholder="description"
               rows={3}
+            />
+          </label>
+
+          <label>
+            Type
+            <input
+              value={type}
+              onChange={(event) => setType(event.target.value)}
+              placeholder="Enter type of task"
+              required
             />
           </label>
 
