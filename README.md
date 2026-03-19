@@ -23,7 +23,7 @@ FocusFlow helps users manage their time and tasks using the Pomodoro technique. 
 
 ## Screenshot
 
-![FocusFlow Home Page](screenshot.png)
+![FocusFlow Home Page](images/image.png)
 
 ## Live Demo
 
