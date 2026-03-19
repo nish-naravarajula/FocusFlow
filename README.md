@@ -9,7 +9,7 @@ A Pomodoro timer and task management application to help you stay focused and pr
 
 ## Class
 
-[CS5610 - Web Development](https://johnguerra.co/classes/webDevelopment_spring_2026/) - Northeastern University, Spring 2026
+[CS5610 - Web Development](https://johnguerra.co/classes/webDevelopment_online_spring_2026/) - Northeastern University, Spring 2026
 
 ## Project Objective
 
