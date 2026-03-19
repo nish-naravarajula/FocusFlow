@@ -4,6 +4,7 @@ function TaskItem({
   name = "task",
   desc = "not found",
   datetime = new Date(),
+  type = "work",
   done = false,
   Finish,
   Delete,
@@ -44,8 +45,8 @@ function TaskItem({
     return due >= startOfWeek.valueOf() && due < endOfWeek.valueOf();
   };
 
-  if(!inWeek()){
-    status =  `${status} ${time.getMonth() + 1}/${time.getDate()}/${time.getFullYear()}`
+  if (!inWeek()) {
+    status = `${status} ${time.getMonth() + 1}/${time.getDate()}/${time.getFullYear()}`;
   }
 
   return (
@@ -53,6 +54,7 @@ function TaskItem({
       <p>
         {name} • {status}
       </p>
+      <p>{type}</p>
       <p className="desc">{desc}</p>
       <button className="button finish" onClick={Finish}>
         {btnText}

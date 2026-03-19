@@ -87,6 +87,7 @@ function CreateTask({ open, onClose, onCreate }) {
               type="datetime-local"
               value={due}
               onChange={(event) => setDue(event.target.value)}
+              required
             />
           </label>
 

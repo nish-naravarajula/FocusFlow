@@ -1,0 +1,10 @@
+.progress-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.labels {
+  margin-top: 10px;
+  font-size: 14px;
+}

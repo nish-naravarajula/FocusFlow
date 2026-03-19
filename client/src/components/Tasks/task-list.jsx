@@ -22,6 +22,7 @@ function TaskList({
             key={task.id}
             name={task.name}
             desc={task.desc}
+            type={task.type}
             datetime={task.due}
             done={task.done}
             Finish={() => toggleComplete(task.id)}

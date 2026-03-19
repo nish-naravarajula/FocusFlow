@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import "./Home.css";
 import CreateTask from "../components/Tasks/create-task.jsx";
-import TaskItem from "../components/Tasks/task-item.jsx";
+import ProgressCircles from "../components/Circle/progress-circle.jsx";
 import SessionsGraph from "../components/Sessions/SessionsGraph.jsx";
 import StreakDisplay from "../components/Sessions/StreakDisplay.jsx";
 import TaskNav from "../components/Tasks/task-nav.jsx";
@@ -16,6 +16,7 @@ function normalizeTask(task) {
     id,
     name: task.name,
     desc: task.desc,
+    type: task.type,
     due: task.due,
     done: task.done ?? false,
   };
@@ -241,7 +242,7 @@ function Home({ refreshTrigger }) {
 
         {/* PROGRESS COL */}
         <div className="column holder prog col-3">
-          <div className="prog-circle"></div>
+          <ProgressCircles tasks={tasks} />
           <TaskNav status={status} setStatus={setStatus} />
           <div className="tasks">
             <TaskList
