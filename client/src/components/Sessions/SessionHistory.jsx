@@ -6,10 +6,13 @@ const SessionHistory = ({ refreshTrigger }) => {
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     fetchSessions();
-  }, [refreshTrigger]);
+  }, [refreshTrigger, page]);
 
   const fetchSessions = async () => {
     const token = localStorage.getItem("token");
@@ -19,18 +22,24 @@ const SessionHistory = ({ refreshTrigger }) => {
     }
 
     try {
-      const res = await fetch("http://localhost:5000/api/sessions", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await fetch(
+        `http://localhost:5000/api/sessions?page=${page}&limit=10`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (!res.ok) {
         throw new Error("Failed to fetch sessions");
       }
 
       const data = await res.json();
-      setSessions(data);
+      const sessionList = data.sessions || data || [];
+      setSessions(Array.isArray(sessionList) ? sessionList : []);
+      setTotal(data.total || 0);
+      setTotalPages(data.totalPages || 1);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -50,6 +59,7 @@ const SessionHistory = ({ refreshTrigger }) => {
 
       if (res.ok) {
         setSessions(sessions.filter((s) => s._id !== id));
+        setTotal((prev) => prev - 1);
       }
     } catch (err) {
       console.error("Delete failed:", err);
@@ -76,35 +86,61 @@ const SessionHistory = ({ refreshTrigger }) => {
 
   return (
     <div className="session-history-container">
-      <h3>Session History</h3>
+      <div className="session-history-header">
+        <h3>Session History</h3>
+        <span className="session-count">{total} total sessions</span>
+      </div>
       {sessions.length === 0 ? (
         <p className="no-sessions">
           No sessions yet. Start your first focus session!
         </p>
       ) : (
-        <ul className="session-list">
-          {sessions.map((session) => (
-            <li key={session._id} className="session-item">
-              <div className="session-info">
-                <span className={`session-type ${session.type}`}>
-                  {session.type}
-                </span>
-                <span className="session-label">{session.label}</span>
-                <span className="session-duration">{session.duration} min</span>
-                <span className="session-date">
-                  {formatDate(session.completedAt)}
-                </span>
-              </div>
-              <button
-                type="button"
-                className="delete-btn"
-                onClick={() => handleDelete(session._id)}
-              >
-                Delete
-              </button>
-            </li>
-          ))}
-        </ul>
+        <>
+          <ul className="session-list">
+            {sessions.map((session) => (
+              <li key={session._id} className="session-item">
+                <div className="session-info">
+                  <span className={`session-type ${session.type}`}>
+                    {session.type}
+                  </span>
+                  <span className="session-label">{session.label}</span>
+                  <span className="session-duration">
+                    {session.duration} min
+                  </span>
+                  <span className="session-date">
+                    {formatDate(session.completedAt)}
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  className="delete-btn"
+                  onClick={() => handleDelete(session._id)}
+                >
+                  Delete
+                </button>
+              </li>
+            ))}
+          </ul>
+          <div className="pagination">
+            <button
+              type="button"
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              disabled={page === 1}
+            >
+              Prev
+            </button>
+            <span>
+              Page {page} of {totalPages}
+            </span>
+            <button
+              type="button"
+              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+              disabled={page === totalPages}
+            >
+              Next
+            </button>
+          </div>
+        </>
       )}
     </div>
   );

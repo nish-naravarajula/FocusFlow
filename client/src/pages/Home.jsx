@@ -57,7 +57,8 @@ function Home({ refreshTrigger }) {
       }
 
       const data = await res.json();
-      setTasks(Array.isArray(data) ? data.map(normalizeTask) : []);
+      const taskList = data.tasks || data;
+      setTasks(Array.isArray(taskList) ? taskList.map(normalizeTask) : []);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -203,7 +204,7 @@ function Home({ refreshTrigger }) {
               .slice(0, 20)
               .reverse()
               .map((task) => (
-                <li className={late(task) ? "late" : ""}>
+                <li key={task.id} className={late(task) ? "late" : ""}>
                   {task.name}
                   {!inWeek(task)
                     ? ` ${new Date(task.due).getMonth() + 1}/${new Date(task.due).getDate()}`

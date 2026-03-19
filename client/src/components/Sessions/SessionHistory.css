@@ -104,3 +104,60 @@
   background-color: #dc2626;
   color: white;
 }
+
+.session-history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.session-history-header h3 {
+  margin: 0;
+  color: #1a1a2e;
+  font-size: 1.25rem;
+}
+
+.session-count {
+  background: #a89a6e;
+  color: #1a1a2e;
+  padding: 4px 12px;
+  border-radius: 15px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px dashed #a89a6e;
+}
+
+.pagination button {
+  padding: 8px 16px;
+  background: #a89a6e;
+  color: #1a1a2e;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.pagination button:hover:not(:disabled) {
+  background: #8b7a5e;
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  color: #1a1a2e;
+  font-size: 0.9rem;
+}

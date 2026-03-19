@@ -13,6 +13,7 @@ function normalizeTask(task) {
     id,
     name: task.name,
     desc: task.desc,
+    type: task.type,
     due: task.due,
     done: task.done ?? false,
   };
@@ -24,10 +25,13 @@ function Tasks({ refreshTrigger }) {
   const [isCreating, setIsCreating] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     fetchTasks();
-  }, [refreshTrigger]);
+  }, [refreshTrigger, page]);
 
   const fetchTasks = async () => {
     const token = localStorage.getItem("token");
@@ -40,11 +44,14 @@ function Tasks({ refreshTrigger }) {
     setError("");
 
     try {
-      const res = await fetch("http://localhost:5000/api/tasks", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await fetch(
+        `http://localhost:5000/api/tasks?page=${page}&limit=20`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
@@ -52,7 +59,10 @@ function Tasks({ refreshTrigger }) {
       }
 
       const data = await res.json();
-      setTasks(Array.isArray(data) ? data.map(normalizeTask) : []);
+      const taskList = data.tasks || data;
+      setTasks(Array.isArray(taskList) ? taskList.map(normalizeTask) : []);
+      setTotal(data.total || 0);
+      setTotalPages(data.totalPages || 1);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -77,6 +87,7 @@ function Tasks({ refreshTrigger }) {
         body: JSON.stringify({
           name: task.name,
           desc: task.desc,
+          type: task.type,
           due: task.due,
         }),
       });
@@ -87,6 +98,7 @@ function Tasks({ refreshTrigger }) {
       }
 
       setTasks((prev) => [...prev, normalizeTask(data)]);
+      setTotal((prev) => prev + 1);
     } catch (err) {
       setError(err.message);
     }
@@ -151,6 +163,7 @@ function Tasks({ refreshTrigger }) {
         throw new Error(data.error || "Failed to delete task");
       }
       setTasks((prev) => prev.filter((t) => t.id !== taskId));
+      setTotal((prev) => prev - 1);
     } catch (err) {
       setError(err.message);
     }
@@ -177,6 +190,7 @@ function Tasks({ refreshTrigger }) {
     <div className="wrap">
       <div className="top">
         <TaskNav status={status} setStatus={setStatus} />
+        <span className="task-count">{total} total tasks</span>
       </div>
       <div className="task-holder">
         <div className="holder add" onClick={() => setIsCreating(true)}>
@@ -189,6 +203,26 @@ function Tasks({ refreshTrigger }) {
           toggleComplete={toggleComplete}
           deleteTask={deleteTask}
         />
+
+        <div className="pagination">
+          <button
+            type="button"
+            onClick={() => setPage((p) => Math.max(1, p - 1))}
+            disabled={page === 1}
+          >
+            Prev
+          </button>
+          <span>
+            Page {page} of {totalPages}
+          </span>
+          <button
+            type="button"
+            onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+            disabled={page === totalPages}
+          >
+            Next
+          </button>
+        </div>
       </div>
       <CreateTask
         open={isCreating}

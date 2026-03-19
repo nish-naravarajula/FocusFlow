@@ -36,16 +36,27 @@ router.post("/", async (req, res) => {
   }
 });
 
-// GET /api/tasks/
+// GET /api/tasks/ — with pagination
 router.get("/", async (req, res) => {
   try {
     const tasks = getCollection("tasks");
-    const userTasks = await tasks
-      .find({ userId: new ObjectId(req.user.userId) })
-      .sort({ due: 1 })
-      .toArray();
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 100;
+    const skip = (page - 1) * limit;
 
-    res.json(userTasks);
+    const userId = new ObjectId(req.user.userId);
+
+    const [userTasks, totalCount] = await Promise.all([
+      tasks.find({ userId }).sort({ due: 1 }).skip(skip).limit(limit).toArray(),
+      tasks.countDocuments({ userId }),
+    ]);
+
+    res.json({
+      tasks: userTasks,
+      total: totalCount,
+      page,
+      totalPages: Math.ceil(totalCount / limit),
+    });
   } catch (error) {
     console.error("Get tasks error:", error);
     res.status(500).json({ error: "Server error" });
@@ -98,7 +109,7 @@ router.delete("/:id", async (req, res) => {
 
     res.json({ success: true });
   } catch (error) {
-    console.error("Delete task error:", error);
+    console.error("Delete tasks error:", error);
     res.status(500).json({ error: "Server error" });
   }
 });

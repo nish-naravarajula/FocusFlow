@@ -5,7 +5,6 @@ import { authenticateToken } from "../middleware/auth.js";
 
 const router = express.Router();
 
-// All routes require authentication
 router.use(authenticateToken);
 
 // POST /api/sessions — Create session
@@ -30,16 +29,32 @@ router.post("/", async (req, res) => {
   }
 });
 
-// GET /api/sessions — Get all user sessions
+// GET /api/sessions — Get user sessions with pagination
 router.get("/", async (req, res) => {
   try {
     const sessions = getCollection("sessions");
-    const userSessions = await sessions
-      .find({ userId: new ObjectId(req.user.userId) })
-      .sort({ completedAt: -1 })
-      .toArray();
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 20;
+    const skip = (page - 1) * limit;
 
-    res.json(userSessions);
+    const userId = new ObjectId(req.user.userId);
+
+    const [userSessions, totalCount] = await Promise.all([
+      sessions
+        .find({ userId })
+        .sort({ completedAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .toArray(),
+      sessions.countDocuments({ userId }),
+    ]);
+
+    res.json({
+      sessions: userSessions,
+      total: totalCount,
+      page,
+      totalPages: Math.ceil(totalCount / limit),
+    });
   } catch (error) {
     console.error("Get sessions error:", error);
     res.status(500).json({ error: "Server error" });

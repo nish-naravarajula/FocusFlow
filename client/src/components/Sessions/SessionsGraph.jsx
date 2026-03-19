@@ -15,14 +15,15 @@ const SessionsGraph = ({ refreshTrigger }) => {
     if (!token) return;
 
     try {
-      const res = await fetch("http://localhost:5000/api/sessions", {
+      const res = await fetch("http://localhost:5000/api/sessions?limit=500", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
       if (res.ok) {
-        const sessions = await res.json();
+        const data = await res.json();
+        const sessions = data.sessions || data;
         processSessionData(sessions);
       }
     } catch (err) {
