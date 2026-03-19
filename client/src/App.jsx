@@ -3,8 +3,10 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import NavBar from "./components/Nav/nav-bar.jsx";
 import Register from "./components/Auth/Register";
 import Login from "./components/Auth/Login";
-import Home from "./pages/Home";
-import Focus from "./pages/Focus";
+import Home from "./pages/Home.jsx";
+import Focus from "./pages/Focus.jsx";
+import Tasks from "./pages/Tasks.jsx";
+import Calendar from "./pages/Calendar.jsx";
 import "./App.css";
 
 function App() {
@@ -62,7 +64,7 @@ function App() {
     <BrowserRouter>
       <div className="app">
         <NavBar user={user} onLogout={handleLogout} />
-        <main className="main-content">
+        <main className="container">
           <Routes>
             <Route path="/" element={<Navigate to="/home" />} />
             <Route
@@ -80,11 +82,11 @@ function App() {
             />
             <Route
               path="/tasks"
-              element={<div className="placeholder">Tasks - Vee</div>}
+              element={<Tasks/>}
             />
             <Route
               path="/calendar"
-              element={<div className="placeholder">Calendar - Vee</div>}
+              element={<Calendar/>}
             />
           </Routes>
         </main>

@@ -1,13 +1,3 @@
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 85vh;
-  margin-top: 3vh;
-  background-color: #e2ddd2;
-}
-
 .mainpage {
   width: 100%;
   height: 100%;
@@ -18,7 +8,11 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+}
+
+.late {
+  color: red;
+  font-weight: 600;
 }
 
 .holder {
@@ -27,8 +21,22 @@
   padding: 10px;
 }
 
+.prog {
+  overflow: hidden;
+}
+
+.stats {
+  margin-bottom: 10px;
+}
+
 .column .holder {
   width: 100%;
+}
+
+.task-bar{
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
 }
 
 .tasks {
@@ -39,8 +47,15 @@
   overflow-y: scroll;
 }
 
-.more {
+.more,
+.add {
   text-align: center;
+  padding-bottom: 0;
+}
+
+.add {
+  cursor: pointer;
+  user-select: none;
 }
 
 .stats {

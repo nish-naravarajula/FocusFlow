@@ -5,7 +5,8 @@ function TaskItem({
   name = "task",
   desc = "not found",
   datetime = new Date(),
-  complete = false,
+  done = false,
+  onClick
 }) {
   const weekday = [
     "Sunday",
@@ -17,24 +18,29 @@ function TaskItem({
     "Saturday",
   ];
 
-  let currTime = new Date();
-  let time = new Date(datetime);
+  const currTime = new Date();
+  const time = new Date(datetime);
 
   let status = weekday[time.getDay()];
-  if (currTime.valueOf() < time) {
+  let btnText = "Finish"
+  if (currTime.valueOf() > time) {
     status = "Late";
   }
 
-  if (complete) {
+  if (done) {
     status = "Done";
+    btnText = "Drop"
   }
 
   return (
-    <div className="item">
+    <div class="item">
       <p>
         {name} • {status}
       </p>
-      <p>{desc}</p>
+      <p class="desc">{desc}</p>
+      <btn class="finish" onClick={onClick}>
+        {btnText}
+      </btn>
     </div>
   );
 }
@@ -43,7 +49,8 @@ TaskItem.propTypes = {
   name: PropTypes.string,
   desc: PropTypes.string,
   datetime: PropTypes.instanceOf(Date),
-  complete: PropTypes.bool,
+  done: PropTypes.bool,
+  onClick: PropTypes.func,
 };
 
 export default TaskItem;

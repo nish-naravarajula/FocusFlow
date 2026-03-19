@@ -22,10 +22,10 @@
 
 .nav-item.active {
   background: #c9b489;
-  padding-bottom: 15px;
 }
 
 .nav-item.active a {
   color: #1a1a2e;
   font-weight: 700;
+  text-align: center;
 }

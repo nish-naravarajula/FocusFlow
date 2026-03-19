@@ -1,0 +1,74 @@
+.create-task-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.create-task-modal {
+  background: white;
+  border-radius: 14px;
+  width: min(420px, 90vw);
+  padding: 1.25rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
+.create-task-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.create-task-close {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  line-height: 1;
+}
+
+.create-task-form label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: #333;
+}
+
+.create-task-form input,
+.create-task-form textarea {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 0.5rem;
+  font-size: 0.95rem;
+  margin-top: 0.25rem;
+}
+
+.create-task-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.create-task-actions .primary {
+  background: #5ba4a4;
+  border: none;
+  color: white;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.create-task-actions .secondary {
+  background: transparent;
+  border: 1px solid #bbb;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
