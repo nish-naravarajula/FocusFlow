@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "./Home.css";
 import CreateTask from "../components/Tasks/create-task.jsx";
 import ProgressCircles from "../components/Circle/progress-circle.jsx";
@@ -229,9 +230,9 @@ function Home({ refreshTrigger }) {
               toggleComplete={toggleComplete}
               deleteTask={deleteTask}
             />
-            <div className="holder more">
+            <Link to="/tasks" className="holder more">
               <h5>More</h5>
-            </div>
+            </Link>{" "}
           </div>
         </div>
         <CreateTask
