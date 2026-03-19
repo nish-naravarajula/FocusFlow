@@ -1,4 +1,5 @@
 import "./task-item.css";
+import PropTypes from "prop-types";
 
 function TaskItem({
   name = "task",
@@ -65,5 +66,15 @@ function TaskItem({
     </div>
   );
 }
+
+TaskItem.propTypes = {
+  name: PropTypes.string,
+  desc: PropTypes.string,
+  datetime: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
+  type: PropTypes.string,
+  done: PropTypes.bool,
+  Finish: PropTypes.func.isRequired,
+  Delete: PropTypes.func.isRequired,
+};
 
 export default TaskItem;

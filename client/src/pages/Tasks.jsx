@@ -3,6 +3,7 @@ import "./Tasks.css";
 import TaskNav from "../components/Tasks/task-nav";
 import TaskList from "../components/Tasks/task-list";
 import CreateTask from "../components/Tasks/create-task";
+import PropTypes from "prop-types";
 
 function normalizeTask(task) {
   const rawId = task._id ?? task.id;
@@ -16,7 +17,6 @@ function normalizeTask(task) {
     done: task.done ?? false,
   };
 }
-
 
 function Tasks({ refreshTrigger }) {
   const [tasks, setTasks] = useState([]);
@@ -198,5 +198,13 @@ function Tasks({ refreshTrigger }) {
     </div>
   );
 }
+
+Tasks.propTypes = {
+  refreshTrigger: PropTypes.number,
+};
+
+Tasks.defaultProps = {
+  refreshTrigger: 0,
+};
 
 export default Tasks;

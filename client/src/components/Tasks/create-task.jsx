@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./create-task.css";
+import PropTypes from "prop-types";
 
 function CreateTask({ open, onClose, onCreate }) {
   const [name, setName] = useState("");
@@ -104,5 +105,11 @@ function CreateTask({ open, onClose, onCreate }) {
     </div>
   );
 }
+
+CreateTask.propTypes = {
+  open: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onCreate: PropTypes.func.isRequired,
+};
 
 export default CreateTask;

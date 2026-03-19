@@ -1,14 +1,11 @@
+import PropTypes from "prop-types";
 import TaskItem from "./task-item";
 import "./task-nav.css";
 
 function TaskList({
   tasks,
-  filter1 = () => {
-    return true;
-  },
-  filter2 = () => {
-    return true;
-  },
+  filter1 = () => true,
+  filter2 = () => true,
   toggleComplete,
   deleteTask,
 }) {
@@ -32,5 +29,13 @@ function TaskList({
     </>
   );
 }
+
+TaskList.propTypes = {
+  tasks: PropTypes.array.isRequired,
+  filter1: PropTypes.func,
+  filter2: PropTypes.func,
+  toggleComplete: PropTypes.func.isRequired,
+  deleteTask: PropTypes.func.isRequired,
+};
 
 export default TaskList;
