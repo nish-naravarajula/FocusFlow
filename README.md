@@ -104,7 +104,7 @@ FocusFlow/
 │   │   │   ├── Sessions/   # SessionsGraph, SessionHistory, StreakDisplay
 │   │   │   ├── Tasks/      # TaskItem
 │   │   │   └── Timer/      # Timer
-│   │   ├── pages/          # Home, Focus, Tasks, Calendar
+│   │   ├── pages/          # Home, Focus, Tasks
 │   │   ├── App.jsx
 │   │   └── main.jsx
 │   └── package.json
