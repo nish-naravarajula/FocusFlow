@@ -27,7 +27,7 @@ FocusFlow helps users manage their time and tasks using the Pomodoro technique. 
 
 ## Live Demo
 
-[https://focusflow.onrender.com](https://focusflow.onrender.com)
+https://focusflow-1-pnq8.onrender.com/home
 
 ## Tech Stack
 
