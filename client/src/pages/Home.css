@@ -105,3 +105,9 @@
   scrollbar-width: thin;
   scrollbar-color: #8b7a5e transparent;
 }
+
+.overview {
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}

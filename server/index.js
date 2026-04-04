@@ -4,6 +4,8 @@ import { connectDB } from "./db/connection.js";
 import authRoutes from "./routes/auth.js";
 import sessionRoutes from "./routes/sessions.js";
 import taskRoutes from "./routes/tasks.js";
+import passport from "passport";
+import configurePassport from "./config/passport.js";
 
 dotenv.config();
 
@@ -13,8 +15,9 @@ console.log("MONGO_URI exists:", !!process.env.MONGO_URI);
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
 app.use(express.json());
+app.use(passport.initialize());
+configurePassport(passport);
 
 app.use((req, res, next) => {
   const allowedOrigins = [
