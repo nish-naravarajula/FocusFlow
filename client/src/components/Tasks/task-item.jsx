@@ -57,7 +57,7 @@ function TaskItem({
       </p>
       <p>{type}</p>
       <p className="desc">{desc}</p>
-      <button className="button finish" onClick={Finish}>
+      <button className="button finish" onClick={Finish} type="button">
         {btnText}
       </button>
       <button className="button delete" onClick={Delete}>

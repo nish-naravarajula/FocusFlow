@@ -199,9 +199,9 @@ function Tasks({ refreshTrigger }) {
         <span className="task-count">{total} total tasks</span>
       </div>
       <div className="task-holder">
-        <div className="holder add" onClick={() => setIsCreating(true)}>
-          <h5>Add</h5>
-        </div>
+        <button className="holder add" onClick={() => setIsCreating(true)} type="button">
+          <h5>Add Task</h5>
+        </button>
 
         <TaskList
           tasks={tasks}

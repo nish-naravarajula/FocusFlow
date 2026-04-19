@@ -13,7 +13,7 @@ function NavBar({ user, onLogout }) {
   };
 
   return (
-    <div className="nav-bar">
+    <nav className="nav-bar">
       <div className="companyholder">
         <h1>Focus Flow</h1>
       </div>
@@ -30,7 +30,7 @@ function NavBar({ user, onLogout }) {
           </button>
         </div>
       )}
-    </div>
+    </nav>
   );
 }
 

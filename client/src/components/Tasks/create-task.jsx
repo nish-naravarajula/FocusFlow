@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import "./create-task.css";
 import PropTypes from "prop-types";
 
@@ -7,6 +7,7 @@ function CreateTask({ open, onClose, onCreate }) {
   const [desc, setDesc] = useState("");
   const [type, setType] = useState("work");
   const [due, setDue] = useState("");
+  const titleRef = useRef(null);
 
   useEffect(() => {
     if (open) {
@@ -14,6 +15,7 @@ function CreateTask({ open, onClose, onCreate }) {
       setDesc("");
       setType("work");
       setDue("");
+      titleRef.current?.focus();
     }
   }, [open]);
 
@@ -55,6 +57,7 @@ function CreateTask({ open, onClose, onCreate }) {
           <label>
             Title
             <input
+              ref={titleRef}
               value={name}
               onChange={(event) => setName(event.target.value)}
               placeholder="Enter task name"

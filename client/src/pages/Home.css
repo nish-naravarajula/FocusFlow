@@ -50,12 +50,11 @@
   padding-bottom: 0;
   text-decoration: none;
   color: black;
-}
-
-.add {
+  background-color: #c9b489;
   cursor: pointer;
   user-select: none;
 }
+
 
 .stats {
   flex: 0 0 auto;

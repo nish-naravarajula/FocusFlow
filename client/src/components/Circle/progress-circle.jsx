@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import "./progress-circle.css";
 
 function ProgressCircles({ tasks }) {
@@ -40,7 +41,6 @@ function ProgressCircles({ tasks }) {
   // Take top 4 by total tasks
   const topTypes = typeStats.sort((a, b) => b.total - a.total).slice(0, 4);
 
-  console.log(grouped);
   // Circle settings
   const baseRadius = 80;
   const strokeWidth = 10;
@@ -98,5 +98,19 @@ function ProgressCircles({ tasks }) {
     </div>
   );
 }
+
+ProgressCircles.propTypes = {
+  tasks: PropTypes.arrayOf(
+    PropTypes.shape({
+      type: PropTypes.string,
+      done: PropTypes.bool,
+      due: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
+    })
+  )
+};
+
+ProgressCircles.defaultProps = {
+  tasks: [],
+};
 
 export default ProgressCircles;

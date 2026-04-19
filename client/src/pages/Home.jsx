@@ -228,9 +228,9 @@ function Home({ refreshTrigger }) {
             <StreakDisplay refreshTrigger={refreshTrigger} />
           </div>
           <div className="tasks holder">
-            <div className="holder add" onClick={() => setIsCreating(true)}>
-              <h5>Add</h5>
-            </div>
+            <button className="holder add" onClick={() => setIsCreating(true)} type="button">
+              <h5>Add Task</h5>
+            </button>
             <TaskList
               tasks={tasks}
               filter1={inWeek}
