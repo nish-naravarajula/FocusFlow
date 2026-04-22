@@ -1,7 +1,5 @@
 # FocusFlow
 
-<img width="500" height="262" alt="FocusFlow banner" src="https://github.com/user-attachments/assets/8ed168b2-fe2d-4ab2-b10b-e5df39e69e2c" />
-
 A Pomodoro timer and task management application that helps you stay focused, build streaks, and track productivity. Built with React, Node, Express, and MongoDB.
 
 ## Authors
