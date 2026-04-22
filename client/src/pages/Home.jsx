@@ -103,7 +103,10 @@ function Home({ refreshTrigger = 0 }) {
 
   const getFunc = (s) => (s === "late" ? late : s === "done" ? done : todo);
 
-  const upcomingTasks = tasks.filter(todo).slice(0, 20).reverse();
+const upcomingTasks = tasks
+  .filter(todo)
+  .sort((a, b) => new Date(a.due).valueOf() - new Date(b.due).valueOf())
+  .slice(0, 20);
 
   return (
     <>
