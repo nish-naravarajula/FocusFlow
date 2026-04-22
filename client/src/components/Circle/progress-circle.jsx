@@ -38,7 +38,11 @@ function ProgressCircles({ tasks }) {
 
   const topTypes = typeStats.sort((a, b) => b.total - a.total).slice(0, 4);
 
+<<<<<<< HEAD
   // Circle settings — concentric rings
+=======
+  // Circle settings
+>>>>>>> f8d8ce6f84a34b501541e3da6da3a0c323e07526
   const baseRadius = 80;
   const strokeWidth = 10;
   const gap = 15;
@@ -122,7 +126,21 @@ function ProgressCircles({ tasks }) {
 }
 
 ProgressCircles.propTypes = {
+<<<<<<< HEAD
   tasks: PropTypes.array.isRequired,
+=======
+  tasks: PropTypes.arrayOf(
+    PropTypes.shape({
+      type: PropTypes.string,
+      done: PropTypes.bool,
+      due: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
+    })
+  )
+};
+
+ProgressCircles.defaultProps = {
+  tasks: [],
+>>>>>>> f8d8ce6f84a34b501541e3da6da3a0c323e07526
 };
 
 export default ProgressCircles;

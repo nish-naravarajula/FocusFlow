@@ -13,12 +13,18 @@ function NavBar({ user = null, onLogout = () => {} }) {
   };
 
   return (
+<<<<<<< HEAD
     <nav className="nav-bar" aria-label="Primary">
       <div className="nav-brand">
         <span className="nav-logo" aria-hidden="true">
           ◐
         </span>
         <span className="nav-brand-name">FocusFlow</span>
+=======
+    <nav className="nav-bar">
+      <div className="companyholder">
+        <h1>Focus Flow</h1>
+>>>>>>> f8d8ce6f84a34b501541e3da6da3a0c323e07526
       </div>
 
       <ul className="nav-list">

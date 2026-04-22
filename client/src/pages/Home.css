@@ -92,6 +92,11 @@
   font-weight: var(--weight-semibold);
   font-size: var(--text-sm);
   text-decoration: none;
+<<<<<<< HEAD
+=======
+  color: black;
+  background-color: #c9b489;
+>>>>>>> f8d8ce6f84a34b501541e3da6da3a0c323e07526
   cursor: pointer;
   transition:
     background-color var(--transition-fast),
@@ -99,12 +104,18 @@
     color var(--transition-fast);
 }
 
+<<<<<<< HEAD
 .home-add-btn:hover,
 .home-more-btn:hover {
   background: var(--color-accent-50);
   border-color: var(--color-accent-500);
   color: var(--color-accent-700);
   text-decoration: none;
+=======
+
+.stats {
+  flex: 0 0 auto;
+>>>>>>> f8d8ce6f84a34b501541e3da6da3a0c323e07526
 }
 
 .prog {

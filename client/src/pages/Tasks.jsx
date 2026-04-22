@@ -93,6 +93,7 @@ function Tasks({ refreshTrigger = 0 }) {
   const getFunc = (s) => (s === "late" ? late : s === "done" ? done : todo);
 
   return (
+<<<<<<< HEAD
     <div className="tasks-page">
       <header className="tasks-page-header">
         <h2>Your tasks</h2>
@@ -115,6 +116,16 @@ function Tasks({ refreshTrigger = 0 }) {
           onClick={() => setIsCreating(true)}
         >
           + Add a new task
+=======
+    <div className="wrap">
+      <div className="top">
+        <TaskNav status={status} setStatus={setStatus} />
+        <span className="task-count">{total} total tasks</span>
+      </div>
+      <div className="task-holder">
+        <button className="holder add" onClick={() => setIsCreating(true)} type="button">
+          <h5>Add Task</h5>
+>>>>>>> f8d8ce6f84a34b501541e3da6da3a0c323e07526
         </button>
 
         <TaskList
