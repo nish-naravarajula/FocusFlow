@@ -37,7 +37,6 @@ function TaskItem({
     status = "Done";
   }
 
-  // Start / end of current week
   const now = new Date();
   const startOfWeek = new Date(now);
   startOfWeek.setHours(0, 0, 0, 0);
@@ -56,7 +55,6 @@ function TaskItem({
   const toggleLabel = done ? "Mark as not done" : "Mark as done";
 
   return (
-<<<<<<< HEAD
     <article
       className={`task-item ${done ? "is-done" : ""} ${isLate ? "is-late" : ""}`}
     >
@@ -105,21 +103,6 @@ function TaskItem({
         onCancel={() => setConfirmOpen(false)}
       />
     </article>
-=======
-    <div className="item">
-      <p>
-        {name} • {status}
-      </p>
-      <p>{type}</p>
-      <p className="desc">{desc}</p>
-      <button className="button finish" onClick={Finish} type="button">
-        {btnText}
-      </button>
-      <button className="button delete" onClick={Delete}>
-        Delete
-      </button>
-    </div>
->>>>>>> f8d8ce6f84a34b501541e3da6da3a0c323e07526
   );
 }
 

@@ -1,9 +1,4 @@
-<<<<<<< HEAD
 import { useEffect, useRef, useState } from "react";
-=======
-import { useEffect, useState, useRef } from "react";
-import "./create-task.css";
->>>>>>> f8d8ce6f84a34b501541e3da6da3a0c323e07526
 import PropTypes from "prop-types";
 import "./create-task.css";
 
@@ -17,7 +12,6 @@ function CreateTask({ open, onClose, onCreate }) {
   const [desc, setDesc] = useState("");
   const [type, setType] = useState("work");
   const [due, setDue] = useState("");
-  const titleRef = useRef(null);
 
   const dialogRef = useRef(null);
   const firstFieldRef = useRef(null);
@@ -28,13 +22,9 @@ function CreateTask({ open, onClose, onCreate }) {
       setDesc("");
       setType("work");
       setDue("");
-<<<<<<< HEAD
       setTimeout(() => firstFieldRef.current?.focus(), 50);
-=======
-      titleRef.current?.focus();
->>>>>>> f8d8ce6f84a34b501541e3da6da3a0c323e07526
     }
-     
+    // eslint-disable-next-line react-hooks/set-state-in-effect
   }, [open]);
 
   useEffect(() => {
@@ -108,13 +98,9 @@ function CreateTask({ open, onClose, onCreate }) {
           <div className="create-task-field">
             <label htmlFor="task-name">Title</label>
             <input
-<<<<<<< HEAD
               ref={firstFieldRef}
               id="task-name"
               type="text"
-=======
-              ref={titleRef}
->>>>>>> f8d8ce6f84a34b501541e3da6da3a0c323e07526
               value={name}
               onChange={(event) => setName(event.target.value)}
               placeholder="Finish 5610 assignment"

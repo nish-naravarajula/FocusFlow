@@ -16,7 +16,6 @@ function ProgressCircles({ tasks }) {
 
   const weekTasks = tasks.filter(inWeek);
 
-  // Group tasks by type
   const grouped = weekTasks.reduce((acc, task) => {
     const type = task.type || "other";
     if (!acc[type]) acc[type] = [];
@@ -24,7 +23,6 @@ function ProgressCircles({ tasks }) {
     return acc;
   }, {});
 
-  // Convert to array with completion %
   const typeStats = Object.entries(grouped).map(([type, items]) => {
     const total = items.length;
     const completed = items.filter((t) => t.done).length;
@@ -38,16 +36,10 @@ function ProgressCircles({ tasks }) {
 
   const topTypes = typeStats.sort((a, b) => b.total - a.total).slice(0, 4);
 
-<<<<<<< HEAD
-  // Circle settings — concentric rings
-=======
-  // Circle settings
->>>>>>> f8d8ce6f84a34b501541e3da6da3a0c323e07526
   const baseRadius = 80;
   const strokeWidth = 10;
   const gap = 15;
 
-  // Use accent colors for each ring instead of black
   const ringColors = [
     "var(--color-accent-600)",
     "var(--color-accent-500)",
@@ -126,21 +118,7 @@ function ProgressCircles({ tasks }) {
 }
 
 ProgressCircles.propTypes = {
-<<<<<<< HEAD
   tasks: PropTypes.array.isRequired,
-=======
-  tasks: PropTypes.arrayOf(
-    PropTypes.shape({
-      type: PropTypes.string,
-      done: PropTypes.bool,
-      due: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
-    })
-  )
-};
-
-ProgressCircles.defaultProps = {
-  tasks: [],
->>>>>>> f8d8ce6f84a34b501541e3da6da3a0c323e07526
 };
 
 export default ProgressCircles;

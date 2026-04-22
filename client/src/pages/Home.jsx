@@ -80,7 +80,7 @@ function Home({ refreshTrigger = 0 }) {
 
   useEffect(() => {
     fetchTasks();
-     
+    // eslint-disable-next-line react-hooks/set-state-in-effect, react-hooks/exhaustive-deps
   }, [refreshTrigger]);
 
   const now = new Date();
@@ -142,29 +142,6 @@ function Home({ refreshTrigger = 0 }) {
             <SessionsGraph refreshTrigger={refreshTrigger} />
             <StreakDisplay refreshTrigger={refreshTrigger} />
           </div>
-<<<<<<< HEAD
-=======
-          <div className="tasks holder">
-            <button className="holder add" onClick={() => setIsCreating(true)} type="button">
-              <h5>Add Task</h5>
-            </button>
-            <TaskList
-              tasks={tasks}
-              filter1={inWeek}
-              toggleComplete={toggleComplete}
-              deleteTask={deleteTask}
-            />
-            <Link to="/tasks" className="holder more">
-              <h5>More</h5>
-            </Link>{" "}
-          </div>
-        </div>
-        <CreateTask
-          open={isCreating}
-          onClose={() => setIsCreating(false)}
-          onCreate={createTask}
-        />
->>>>>>> f8d8ce6f84a34b501541e3da6da3a0c323e07526
 
           <div className="holder">
             <h2>This week&apos;s tasks</h2>
