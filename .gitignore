@@ -1,9 +1,17 @@
 # Dependencies
 node_modules/
 
-# Environment
+# Environment — block all .env files except .env.example
 .env
+.env.local
+.env.development
+.env.production
+.env*.local
 server/.env
+client/.env
+client/.env.development
+client/.env.production
+
 # Build
 dist/
 dist-ssr/

@@ -47,7 +47,12 @@ router.get("/", async (req, res) => {
     const userId = new ObjectId(req.user.userId);
 
     const [userTasks, totalCount] = await Promise.all([
-      tasks.find({ userId }).sort({ due: 1 }).skip(skip).limit(limit).toArray(),
+      tasks
+        .find({ userId })
+        .sort({ done: 1, due: -1, createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .toArray(),
       tasks.countDocuments({ userId }),
     ]);
 

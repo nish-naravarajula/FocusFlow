@@ -1,6 +1,10 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import "./Login.css";
+import { api } from "../../api/client";
+import "./auth.css";
+
+const MAX_EMAIL = 100;
+const MAX_PASSWORD = 72;
 
 const Login = ({ onLogin, onSwitchToRegister }) => {
   const [email, setEmail] = useState("");
@@ -14,21 +18,7 @@ const Login = ({ onLogin, onSwitchToRegister }) => {
     setLoading(true);
 
     try {
-      const res = await fetch(
-        "https://focusflow-vexk.onrender.com/api/auth/login",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password }),
-        }
-      );
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.error || "Login failed");
-      }
-
+      const data = await api.login({ email, password });
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
       onLogin(data.user);
@@ -40,45 +30,61 @@ const Login = ({ onLogin, onSwitchToRegister }) => {
   };
 
   return (
-    <div className="login-container">
-      <h2>Welcome Back</h2>
-      {error && <p className="error-message">{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="email">Email</label>
+    <section className="auth-card" aria-labelledby="login-heading">
+      <h2 id="login-heading" className="auth-heading">
+        Welcome back
+      </h2>
+      <p className="auth-subtitle">Log in to continue your focus streak.</p>
+
+      {error && (
+        <p className="auth-error" role="alert">
+          {error}
+        </p>
+      )}
+
+      <form onSubmit={handleSubmit} noValidate>
+        <div className="auth-field">
+          <label htmlFor="login-email">Email</label>
           <input
             type="email"
-            id="email"
+            id="login-email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            maxLength={MAX_EMAIL}
+            autoComplete="email"
             required
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
+
+        <div className="auth-field">
+          <label htmlFor="login-password">Password</label>
           <input
             type="password"
-            id="password"
+            id="login-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            maxLength={MAX_PASSWORD}
+            autoComplete="current-password"
             required
           />
         </div>
-        <button type="submit" disabled={loading}>
-          {loading ? "Logging in..." : "Login"}
+
+        <button type="submit" className="auth-submit" disabled={loading}>
+          {loading ? "Logging in…" : "Log in"}
         </button>
       </form>
-      <p className="switch-text">
+
+      <p className="auth-switch">
         Don&apos;t have an account?{" "}
         <button
           type="button"
-          className="link-button"
+          className="auth-link"
           onClick={onSwitchToRegister}
         >
           Register
         </button>
       </p>
-    </div>
+    </section>
   );
 };
 

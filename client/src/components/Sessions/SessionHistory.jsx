@@ -1,18 +1,17 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { api } from "../../api/client";
+import ConfirmDialog from "../ConfirmDialog/ConfirmDialog";
 import "./SessionHistory.css";
 
-const SessionHistory = ({ refreshTrigger }) => {
+const SessionHistory = ({ refreshTrigger = 0 }) => {
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [total, setTotal] = useState(0);
-
-  useEffect(() => {
-    fetchSessions();
-  }, [refreshTrigger, page]);
+  const [confirmTarget, setConfirmTarget] = useState(null);
 
   const fetchSessions = async () => {
     const token = localStorage.getItem("token");
@@ -20,24 +19,12 @@ const SessionHistory = ({ refreshTrigger }) => {
       setLoading(false);
       return;
     }
-
+    setLoading(true);
+    setError("");
     try {
-      const res = await fetch(
-        `https://focusflow-vexk.onrender.com/api/sessions?page=${page}&limit=10`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (!res.ok) {
-        throw new Error("Failed to fetch sessions");
-      }
-
-      const data = await res.json();
-      const sessionList = data.sessions || data || [];
-      setSessions(Array.isArray(sessionList) ? sessionList : []);
+      const data = await api.getSessions(page, 10);
+      const list = data.sessions || data || [];
+      setSessions(Array.isArray(list) ? list : []);
       setTotal(data.total || 0);
       setTotalPages(data.totalPages || 1);
     } catch (err) {
@@ -47,25 +34,21 @@ const SessionHistory = ({ refreshTrigger }) => {
     }
   };
 
-  const handleDelete = async (id) => {
-    const token = localStorage.getItem("token");
-    try {
-      const res = await fetch(
-        `https://focusflow-vexk.onrender.com/api/sessions/${id}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+  useEffect(() => {
+    fetchSessions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refreshTrigger, page]);
 
-      if (res.ok) {
-        setSessions(sessions.filter((s) => s._id !== id));
-        setTotal((prev) => prev - 1);
-      }
+  const handleDelete = async () => {
+    if (!confirmTarget) return;
+    try {
+      await api.deleteSession(confirmTarget._id);
+      setSessions((prev) => prev.filter((s) => s._id !== confirmTarget._id));
+      setTotal((prev) => prev - 1);
     } catch (err) {
-      console.error("Delete failed:", err);
+      setError(err.message);
+    } finally {
+      setConfirmTarget(null);
     }
   };
 
@@ -80,19 +63,33 @@ const SessionHistory = ({ refreshTrigger }) => {
   };
 
   if (loading) {
-    return <div className="session-history-loading">Loading sessions...</div>;
+    return (
+      <div className="session-history-container">
+        <p className="session-history-loading">Loading sessions…</p>
+      </div>
+    );
   }
 
   if (error) {
-    return <div className="session-history-error">{error}</div>;
+    return (
+      <div className="session-history-container">
+        <p className="session-history-error" role="alert">
+          {error}
+        </p>
+      </div>
+    );
   }
 
   return (
-    <div className="session-history-container">
-      <div className="session-history-header">
-        <h3>Session History</h3>
-        <span className="session-count">{total} total sessions</span>
-      </div>
+    <section
+      className="session-history-container"
+      aria-labelledby="session-history-heading"
+    >
+      <header className="session-history-header">
+        <h3 id="session-history-heading">Session history</h3>
+        <span className="session-count">{total} total</span>
+      </header>
+
       {sessions.length === 0 ? (
         <p className="no-sessions">
           No sessions yet. Start your first focus session!
@@ -117,14 +114,16 @@ const SessionHistory = ({ refreshTrigger }) => {
                 <button
                   type="button"
                   className="delete-btn"
-                  onClick={() => handleDelete(session._id)}
+                  onClick={() => setConfirmTarget(session)}
+                  aria-label={`Delete ${session.label} session`}
                 >
                   Delete
                 </button>
               </li>
             ))}
           </ul>
-          <div className="pagination">
+
+          <nav className="pagination" aria-label="Session pagination">
             <button
               type="button"
               onClick={() => setPage((p) => Math.max(1, p - 1))}
@@ -142,19 +141,30 @@ const SessionHistory = ({ refreshTrigger }) => {
             >
               Next
             </button>
-          </div>
+          </nav>
         </>
       )}
-    </div>
+
+      <ConfirmDialog
+        open={!!confirmTarget}
+        title="Delete this session?"
+        message={
+          confirmTarget
+            ? `This will permanently remove "${confirmTarget.label}" (${confirmTarget.duration} min). This cannot be undone.`
+            : ""
+        }
+        confirmLabel="Delete"
+        cancelLabel="Keep"
+        variant="danger"
+        onConfirm={handleDelete}
+        onCancel={() => setConfirmTarget(null)}
+      />
+    </section>
   );
 };
 
 SessionHistory.propTypes = {
   refreshTrigger: PropTypes.number,
-};
-
-SessionHistory.defaultProps = {
-  refreshTrigger: 0,
 };
 
 export default SessionHistory;

@@ -1,5 +1,29 @@
-.task-bar {
-  justify-content: center;
+.task-nav {
   display: flex;
-  flex-direction: row;
+  gap: var(--space-1);
+  padding: var(--space-1);
+  background: var(--color-surface-alt);
+  border-radius: var(--radius-full);
+  width: fit-content;
+}
+
+.task-nav-btn {
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  color: var(--color-text-muted);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-sm);
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.task-nav-btn:hover {
+  color: var(--color-text);
+}
+
+.task-nav-btn.active {
+  background: var(--color-surface);
+  color: var(--color-accent-700);
+  box-shadow: var(--shadow-sm);
 }

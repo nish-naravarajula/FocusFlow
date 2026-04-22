@@ -1,6 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
+import { api } from "../../api/client";
 import "./Timer.css";
+
+const DURATION_OPTIONS = [5, 10, 15, 20, 25, 30, 45, 60];
+const MAX_LABEL = 50;
 
 const Timer = ({ onSessionComplete }) => {
   const [duration, setDuration] = useState(25);
@@ -10,32 +14,27 @@ const Timer = ({ onSessionComplete }) => {
   const [sessionType, setSessionType] = useState("work");
   const intervalRef = useRef(null);
 
-  // Play sound function
   const playSound = () => {
-    const audioContext = new (
-      window.AudioContext || window.webkitAudioContext
-    )();
-
-    // Play 3 beeps
-    [0, 0.3, 0.6].forEach((delay) => {
-      const oscillator = audioContext.createOscillator();
-      const gainNode = audioContext.createGain();
-
-      oscillator.connect(gainNode);
-      gainNode.connect(audioContext.destination);
-
-      oscillator.frequency.value = 800;
-      oscillator.type = "sine";
-
-      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime + delay);
-      gainNode.gain.exponentialRampToValueAtTime(
-        0.01,
-        audioContext.currentTime + delay + 0.2
-      );
-
-      oscillator.start(audioContext.currentTime + delay);
-      oscillator.stop(audioContext.currentTime + delay + 0.2);
-    });
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      [0, 0.3, 0.6].forEach((delay) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.frequency.value = 800;
+        osc.type = "sine";
+        gain.gain.setValueAtTime(0.3, ctx.currentTime + delay);
+        gain.gain.exponentialRampToValueAtTime(
+          0.01,
+          ctx.currentTime + delay + 0.2
+        );
+        osc.start(ctx.currentTime + delay);
+        osc.stop(ctx.currentTime + delay + 0.2);
+      });
+    } catch {
+      /* audio not supported, silently ignore */
+    }
   };
 
   useEffect(() => {
@@ -46,51 +45,30 @@ const Timer = ({ onSessionComplete }) => {
     } else if (timeLeft === 0 && isRunning) {
       handleSessionComplete();
     }
-
     return () => clearInterval(intervalRef.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isRunning, timeLeft]);
 
   const handleSessionComplete = async () => {
     setIsRunning(false);
     clearInterval(intervalRef.current);
-
-    // Play sound
     playSound();
 
-    const token = localStorage.getItem("token");
-    if (token) {
-      try {
-        const res = await fetch(
-          "https://focusflow-vexk.onrender.com/api/sessions",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({
-              duration,
-              label: label || "Focus Session",
-              type: sessionType,
-            }),
-          }
-        );
-
-        if (res.ok) {
-          const session = await res.json();
-          onSessionComplete(session);
-        }
-      } catch (error) {
-        console.error("Failed to save session:", error);
-      }
+    try {
+      const session = await api.createSession({
+        duration,
+        label: label || "Focus Session",
+        type: sessionType,
+      });
+      onSessionComplete(session);
+    } catch (error) {
+      console.error("Failed to save session:", error);
     }
 
     resetTimer();
   };
 
-  const startTimer = () => {
-    setIsRunning(true);
-  };
+  const startTimer = () => setIsRunning(true);
 
   const pauseTimer = () => {
     setIsRunning(false);
@@ -104,25 +82,36 @@ const Timer = ({ onSessionComplete }) => {
   };
 
   const handleDurationChange = (newDuration) => {
-    setDuration(newDuration);
-    if (!isRunning) {
-      setTimeLeft(newDuration * 60);
-    }
+    const d = Number(newDuration);
+    setDuration(d);
+    if (!isRunning) setTimeLeft(d * 60);
   };
 
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+    return `${mins.toString().padStart(2, "0")}:${secs
+      .toString()
+      .padStart(2, "0")}`;
   };
 
   return (
-    <div className="timer-container">
-      <div className="timer-type-toggle">
+    <section className="timer-container" aria-labelledby="timer-heading">
+      <h2 id="timer-heading" className="sr-only">
+        Focus Timer
+      </h2>
+
+      <div
+        className="timer-type-toggle"
+        role="radiogroup"
+        aria-label="Session type"
+      >
         <button
           type="button"
           className={sessionType === "work" ? "active" : ""}
           onClick={() => setSessionType("work")}
+          role="radio"
+          aria-checked={sessionType === "work"}
         >
           Work
         </button>
@@ -130,50 +119,82 @@ const Timer = ({ onSessionComplete }) => {
           type="button"
           className={sessionType === "break" ? "active" : ""}
           onClick={() => setSessionType("break")}
+          role="radio"
+          aria-checked={sessionType === "break"}
         >
           Break
         </button>
       </div>
 
-      <div className="timer-display">{formatTime(timeLeft)}</div>
+      <div
+        className="timer-display"
+        role="timer"
+        aria-live="polite"
+        aria-atomic="true"
+        aria-label={`${Math.floor(timeLeft / 60)} minutes ${
+          timeLeft % 60
+        } seconds remaining`}
+      >
+        {formatTime(timeLeft)}
+      </div>
 
       <div className="timer-label">
+        <label htmlFor="timer-label-input" className="sr-only">
+          What are you working on?
+        </label>
         <input
+          id="timer-label-input"
           type="text"
           placeholder="What are you working on?"
           value={label}
           onChange={(e) => setLabel(e.target.value)}
+          maxLength={MAX_LABEL}
         />
       </div>
 
       <div className="timer-duration">
-        <label htmlFor="duration">Duration (minutes):</label>
-        <input
-          type="number"
-          id="duration"
-          min="1"
-          max="60"
+        <label htmlFor="timer-duration-select">Duration</label>
+        <select
+          id="timer-duration-select"
           value={duration}
-          onChange={(e) => handleDurationChange(Number(e.target.value))}
+          onChange={(e) => handleDurationChange(e.target.value)}
           disabled={isRunning}
-        />
+        >
+          {DURATION_OPTIONS.map((n) => (
+            <option key={n} value={n}>
+              {n} minutes
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="timer-controls">
         {!isRunning ? (
-          <button type="button" className="start-btn" onClick={startTimer}>
+          <button
+            type="button"
+            className="timer-btn timer-btn-start"
+            onClick={startTimer}
+          >
             Start
           </button>
         ) : (
-          <button type="button" className="pause-btn" onClick={pauseTimer}>
+          <button
+            type="button"
+            className="timer-btn timer-btn-pause"
+            onClick={pauseTimer}
+          >
             Pause
           </button>
         )}
-        <button type="button" className="reset-btn" onClick={resetTimer}>
+        <button
+          type="button"
+          className="timer-btn timer-btn-reset"
+          onClick={resetTimer}
+        >
           Reset
         </button>
       </div>
-    </div>
+    </section>
   );
 };
 

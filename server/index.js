@@ -19,6 +19,7 @@ app.use(express.json());
 app.use(passport.initialize());
 configurePassport(passport);
 
+// CORS
 app.use((req, res, next) => {
   const allowedOrigins = [
     "http://localhost:5173",
@@ -34,6 +35,14 @@ app.use((req, res, next) => {
   if (req.method === "OPTIONS") {
     return res.sendStatus(200);
   }
+  next();
+});
+
+// Disable caching for all API responses — prevents stale 304s on task/session lists
+app.use("/api", (req, res, next) => {
+  res.set("Cache-Control", "no-store, no-cache, must-revalidate, private");
+  res.set("Pragma", "no-cache");
+  res.set("Expires", "0");
   next();
 });
 

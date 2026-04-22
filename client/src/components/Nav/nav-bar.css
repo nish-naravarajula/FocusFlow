@@ -1,51 +1,67 @@
 .nav-bar {
   display: flex;
-  align-items: flex-end;
-  padding: 15px 20px 0;
-  background: #d4c9a8;
-  gap: 5px;
+  align-items: center;
+  gap: var(--space-6);
+  padding: var(--space-3) var(--space-6);
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  height: var(--nav-height);
+  box-shadow: var(--shadow-sm);
 }
 
-.companyholder h1 {
-  background: #5ba4a4;
-  padding: 10px 18px;
-  border-radius: 8px;
-  color: #1a1a2e;
-  font-size: 1.3rem;
-  font-family: "Georgia", serif;
-  margin-right: 20px;
-  margin-bottom: 0;
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  color: var(--color-accent-600);
+}
+
+.nav-logo {
+  font-size: var(--text-2xl);
+  line-height: 1;
+}
+
+.nav-brand-name {
+  letter-spacing: var(--tracking-tight);
+}
+
+.nav-list {
+  display: flex;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  flex: 1;
 }
 
 .nav-user {
-  margin-left: auto;
   display: flex;
   align-items: center;
-  gap: 15px;
-  padding: 10px 15px;
-  margin-bottom: 8px;
+  gap: var(--space-3);
 }
 
-.nav-user span {
-  color: #1a1a2e;
-  font-weight: 600;
-  font-size: 0.95rem;
+.nav-user-name {
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
+  font-size: var(--text-sm);
 }
 
-.nav-user button {
-  padding: 8px 18px;
-  background-color: #e74c3c;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-family: inherit;
-  font-weight: 600;
-  font-size: 0.85rem;
-  transition: all 0.2s ease;
+.nav-logout {
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-danger);
+  color: var(--color-danger-text);
+  border-radius: var(--radius-md);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-sm);
+  transition:
+    background-color var(--transition-fast),
+    transform var(--transition-fast);
 }
 
-.nav-user button:hover {
-  background-color: #c0392b;
+.nav-logout:hover {
+  background: var(--color-danger-hover);
   transform: translateY(-1px);
 }

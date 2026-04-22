@@ -1,24 +1,136 @@
-.item {
-  margin: 5px;
-  border: 3px dashed black;
-  border-radius: 20px;
-  padding: 10px;
+.task-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition:
+    box-shadow var(--transition-fast),
+    border-color var(--transition-fast);
 }
 
-.button {
-  border-radius: 10px;
-  padding: 10px;
-  width: min-content;
+.task-item:hover {
+  box-shadow: var(--shadow-md);
 }
 
-.finish {
-  background-color: #5ba4a4;
+.task-item.is-late {
+  border-left: 4px solid var(--color-warning);
+  background: var(--color-warning-bg);
 }
 
-.delete {
-  background-color: #a32020;
+.task-item.is-done {
+  opacity: 0.65;
 }
 
-.desc {
-  margin-bottom: 10px;
+.task-item.is-done .task-item-title {
+  text-decoration: line-through;
+  color: var(--color-text-muted);
+}
+
+.task-item-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.task-item-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.task-item-title {
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
+  margin: 0;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  line-height: var(--leading-snug);
+}
+
+.task-item-type {
+  padding: var(--space-1) var(--space-2);
+  background: var(--color-accent-100);
+  color: var(--color-accent-700);
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+  flex-shrink: 0;
+}
+
+.task-item-desc {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+.task-item-status {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  font-weight: var(--weight-medium);
+}
+
+.task-item.is-late .task-item-status {
+  color: var(--color-warning-hover);
+  font-weight: var(--weight-semibold);
+}
+
+/* Buttons always bottom — stacked vertically stays clean in narrow columns */
+.task-item-actions {
+  display: flex;
+  flex-direction: row;
+  gap: var(--space-2);
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.task-item-btn {
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  transition:
+    background-color var(--transition-fast),
+    transform var(--transition-fast);
+  min-width: 72px;
+}
+
+.task-item-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.task-item-btn-toggle {
+  background: var(--color-success);
+  color: var(--color-success-text);
+  border: 1px solid var(--color-success);
+}
+
+.task-item-btn-toggle:hover {
+  background: var(--color-success-hover);
+  color: var(--color-success-text);
+  border-color: var(--color-success-hover);
+}
+
+.task-item-btn-delete {
+  background: var(--color-surface);
+  color: var(--color-danger);
+  border: 1px solid var(--color-border-strong);
+}
+
+.task-item-btn-delete:hover {
+  background: var(--color-danger);
+  color: var(--color-danger-text);
+  border-color: var(--color-danger);
 }

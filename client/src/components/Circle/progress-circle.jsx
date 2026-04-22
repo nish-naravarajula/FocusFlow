@@ -1,12 +1,11 @@
+import PropTypes from "prop-types";
 import "./progress-circle.css";
 
 function ProgressCircles({ tasks }) {
   const now = new Date();
-
   const startOfWeek = new Date(now);
   startOfWeek.setHours(0, 0, 0, 0);
   startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
-
   const endOfWeek = new Date(startOfWeek);
   endOfWeek.setDate(endOfWeek.getDate() + 7);
 
@@ -19,16 +18,16 @@ function ProgressCircles({ tasks }) {
 
   // Group tasks by type
   const grouped = weekTasks.reduce((acc, task) => {
-    const type = task.type || "unknown";
+    const type = task.type || "other";
     if (!acc[type]) acc[type] = [];
     acc[type].push(task);
     return acc;
   }, {});
 
   // Convert to array with completion %
-  const typeStats = Object.entries(grouped).map(([type, tasks]) => {
-    const total = tasks.length;
-    const completed = tasks.filter((t) => t.done).length;
+  const typeStats = Object.entries(grouped).map(([type, items]) => {
+    const total = items.length;
+    const completed = items.filter((t) => t.done).length;
     return {
       type,
       total,
@@ -37,66 +36,93 @@ function ProgressCircles({ tasks }) {
     };
   });
 
-  // Take top 4 by total tasks
   const topTypes = typeStats.sort((a, b) => b.total - a.total).slice(0, 4);
 
-  console.log(grouped);
-  // Circle settings
+  // Circle settings — concentric rings
   const baseRadius = 80;
   const strokeWidth = 10;
   const gap = 15;
 
+  // Use accent colors for each ring instead of black
+  const ringColors = [
+    "var(--color-accent-600)",
+    "var(--color-accent-500)",
+    "var(--color-warning)",
+    "var(--color-primary-500)",
+  ];
+
   return (
     <div className="progress-container">
-      <svg width="200" height="200">
-        {topTypes.map((t, index) => {
-          const radius = baseRadius - index * (strokeWidth + gap);
-          const circumference = 2 * Math.PI * radius;
-          const offset = circumference * (1 - t.percent);
+      {topTypes.length === 0 ? (
+        <p className="progress-empty">No tasks this week yet.</p>
+      ) : (
+        <>
+          <svg
+            width="200"
+            height="200"
+            role="img"
+            aria-label={`Weekly progress: ${topTypes
+              .map((t) => `${t.type} ${Math.round(t.percent * 100)}%`)
+              .join(", ")}`}
+          >
+            {topTypes.map((t, index) => {
+              const radius = baseRadius - index * (strokeWidth + gap);
+              const circumference = 2 * Math.PI * radius;
+              const offset = circumference * (1 - t.percent);
 
-          return (
-            <g key={t.type}>
-              {/* Background circle */}
-              <circle
-                cx="100"
-                cy="100"
-                r={radius}
-                stroke="#eee"
-                strokeWidth={strokeWidth}
-                fill="none"
-              />
+              return (
+                <g key={t.type}>
+                  <circle
+                    cx="100"
+                    cy="100"
+                    r={radius}
+                    stroke="var(--color-border)"
+                    strokeWidth={strokeWidth}
+                    fill="none"
+                  />
+                  <circle
+                    cx="100"
+                    cy="100"
+                    r={radius}
+                    stroke={ringColors[index]}
+                    strokeWidth={strokeWidth}
+                    fill="none"
+                    strokeDasharray={circumference}
+                    strokeDashoffset={offset}
+                    strokeLinecap="round"
+                    style={{
+                      transform: "rotate(-90deg)",
+                      transformOrigin: "50% 50%",
+                      transition: "stroke-dashoffset 500ms ease",
+                    }}
+                  />
+                </g>
+              );
+            })}
+          </svg>
 
-              {/* Progress circle */}
-              <circle
-                cx="100"
-                cy="100"
-                r={radius}
-                stroke="#000"
-                strokeWidth={strokeWidth}
-                fill="none"
-                strokeDasharray={circumference}
-                strokeDashoffset={offset}
-                strokeLinecap="round"
-                style={{
-                  transform: "rotate(-90deg)",
-                  transformOrigin: "50% 50%",
-                }}
-              />
-            </g>
-          );
-        })}
-      </svg>
-
-      {/* Labels */}
-      <div className="labels">
-        {topTypes.map((t) => (
-          <div key={t.type}>
-            {t.type}: {Math.round(t.percent * 100)}%
-          </div>
-        ))}
-      </div>
+          <ul className="progress-labels" aria-hidden="true">
+            {topTypes.map((t, index) => (
+              <li key={t.type} className="progress-label">
+                <span
+                  className="progress-label-dot"
+                  style={{ background: ringColors[index] }}
+                />
+                <span className="progress-label-type">{t.type}</span>
+                <span className="progress-label-percent">
+                  {Math.round(t.percent * 100)}%
+                </span>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
     </div>
   );
 }
+
+ProgressCircles.propTypes = {
+  tasks: PropTypes.array.isRequired,
+};
 
 export default ProgressCircles;

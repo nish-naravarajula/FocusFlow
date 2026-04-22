@@ -1,269 +1,38 @@
 .focus-page {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  padding: 40px;
-  min-height: calc(100vh - 60px);
+  gap: var(--space-10);
+  padding: var(--space-8);
   align-items: start;
-  justify-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
-/* Left side - Sessions Graph & History */
-.focus-left {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.focus-left-content {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  width: 100%;
-  max-width: 500px;
-  max-height: calc(100vh - 120px);
-}
-
-.focus-left-content .session-history-container {
-  background: #b8a978;
-  border-radius: 15px;
-  padding: 20px 25px;
-  overflow-y: auto;
-  max-height: 300px;
-}
-
-/* Right side - Timer */
+.focus-left,
 .focus-right {
   display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding-top: 20px;
+  flex-direction: column;
+  gap: var(--space-5);
+  width: 100%;
 }
 
-.timer-circle {
-  position: relative;
-  width: 450px;
-  height: 450px;
-  display: flex;
+.focus-right {
   align-items: center;
-  justify-content: center;
 }
 
-/* Outer glow ring */
-.timer-circle::before {
-  content: "";
-  position: absolute;
+.focus-right .timer-container {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
   width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: conic-gradient(
-    from 0deg,
-    #e74c3c,
-    #f39c12,
-    #f1c40f,
-    #2ecc71,
-    #3498db,
-    #9b59b6,
-    #e74c3c
-  );
-  padding: 4px;
-  -webkit-mask: radial-gradient(
-    farthest-side,
-    transparent calc(100% - 4px),
-    #fff calc(100% - 4px)
-  );
-  mask: radial-gradient(
-    farthest-side,
-    transparent calc(100% - 4px),
-    #fff calc(100% - 4px)
-  );
-  animation: rotate 8s linear infinite;
+  max-width: 480px;
 }
 
-@keyframes rotate {
-  from {
-    transform: rotate(0deg);
+@media (max-width: 900px) {
+  .focus-page {
+    grid-template-columns: 1fr;
+    padding: var(--space-4);
+    gap: var(--space-6);
   }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Inner circle - main background */
-.timer-circle::after {
-  content: "";
-  position: absolute;
-  width: 420px;
-  height: 420px;
-  border-radius: 50%;
-  background: linear-gradient(145deg, #f5f5f0, #e8e4d9);
-  box-shadow:
-    inset 5px 5px 15px rgba(0, 0, 0, 0.1),
-    inset -5px -5px 15px rgba(255, 255, 255, 0.8),
-    10px 10px 30px rgba(0, 0, 0, 0.2);
-}
-
-/* Timer content wrapper */
-.timer-circle .timer-container {
-  position: relative;
-  z-index: 10;
-  background: transparent;
-  box-shadow: none;
-  padding: 20px;
-  margin: 0;
-  max-width: 300px;
-}
-
-/* Work/Break toggle */
-.timer-circle .timer-type-toggle {
-  margin-bottom: 1rem;
-  gap: 10px;
-}
-
-.timer-circle .timer-type-toggle button {
-  padding: 10px 28px;
-  font-size: 0.95rem;
-  border-radius: 25px;
-  border: none;
-  transition: all 0.3s ease;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.timer-circle .timer-type-toggle button.active {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  color: white;
-  box-shadow: 0 5px 20px rgba(102, 126, 234, 0.5);
-  transform: scale(1.05);
-}
-
-.timer-circle .timer-type-toggle button:not(.active) {
-  background: rgba(255, 255, 255, 0.8);
-  color: #333;
-  border: 2px solid #ddd;
-}
-
-.timer-circle .timer-type-toggle button:not(.active):hover {
-  background: #fff;
-  border-color: #667eea;
-}
-
-/* Timer display */
-.timer-circle .timer-display {
-  font-size: 5rem;
-  font-weight: 200;
-  color: #1a1a2e;
-  letter-spacing: 8px;
-  margin: 20px 0;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-  font-family: "Courier New", monospace;
-}
-
-/* Label input */
-.timer-circle .timer-label {
-  margin-bottom: 1rem;
-}
-
-.timer-circle .timer-label input {
-  width: 220px;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 25px;
-  font-size: 0.9rem;
-  text-align: center;
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-}
-
-.timer-circle .timer-label input:focus {
-  outline: none;
-  box-shadow:
-    inset 2px 2px 5px rgba(0, 0, 0, 0.1),
-    0 0 0 3px rgba(102, 126, 234, 0.3);
-}
-
-/* Duration input */
-.timer-circle .timer-duration {
-  margin-bottom: 1.5rem;
-}
-
-.timer-circle .timer-duration label {
-  font-size: 0.8rem;
-  color: #666;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.timer-circle .timer-duration input {
-  width: 60px;
-  padding: 8px;
-  border: none;
-  border-radius: 10px;
-  text-align: center;
-  font-size: 1rem;
-  font-weight: 600;
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-/* Control buttons */
-.timer-circle .timer-controls {
-  gap: 15px;
-}
-
-.timer-circle .timer-controls button {
-  padding: 14px 35px;
-  font-size: 1rem;
-  border-radius: 30px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  transition: all 0.3s ease;
-  border: none;
-}
-
-.timer-circle .start-btn {
-  background: linear-gradient(135deg, #00b894, #00cec9);
-  color: white;
-  box-shadow: 0 5px 20px rgba(0, 184, 148, 0.4);
-}
-
-.timer-circle .start-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(0, 184, 148, 0.5);
-}
-
-.timer-circle .pause-btn {
-  background: linear-gradient(135deg, #fdcb6e, #e17055);
-  color: white;
-}
-
-/* Sessions Graph - Focus page overrides */
-.focus-left .sessions-graph-container {
-  padding: 25px 30px;
-  width: 100%;
-}
-
-.focus-left .graph-wrapper {
-  height: 200px;
-}
-
-.focus-left .graph-y-axis {
-  height: 200px;
-  font-size: 0.9rem;
-}
-
-.focus-left .graph-area {
-  height: 200px;
-}
-
-.focus-left .x-label {
-  font-size: 0.9rem;
-}
-
-.focus-left .sessions-graph-container h2 {
-  font-size: 1.3rem;
-  margin-bottom: 15px;
 }

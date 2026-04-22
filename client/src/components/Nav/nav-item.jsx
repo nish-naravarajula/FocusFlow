@@ -6,19 +6,21 @@ function NavItem({ name, active = false }) {
   const path = `/${name.toLowerCase()}`;
 
   return (
-    <div className={`nav-item ${name} ${active ? "active" : ""}`}>
-      <Link to={path}>{name}</Link>
-    </div>
+    <li className="nav-item">
+      <Link
+        to={path}
+        className={`nav-link ${active ? "active" : ""}`}
+        aria-current={active ? "page" : undefined}
+      >
+        {name}
+      </Link>
+    </li>
   );
 }
 
 NavItem.propTypes = {
   name: PropTypes.string.isRequired,
   active: PropTypes.bool,
-};
-
-NavItem.defaultProps = {
-  active: false,
 };
 
 export default NavItem;

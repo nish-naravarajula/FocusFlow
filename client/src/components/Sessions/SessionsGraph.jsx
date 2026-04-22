@@ -1,85 +1,72 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { api } from "../../api/client";
 import "./SessionsGraph.css";
 
-const SessionsGraph = ({ refreshTrigger }) => {
+const SessionsGraph = ({ refreshTrigger = 0 }) => {
   const [weekData, setWeekData] = useState([0, 0, 0, 0, 0, 0, 0]);
   const [maxValue, setMaxValue] = useState(10);
-
-  useEffect(() => {
-    fetchSessions();
-  }, [refreshTrigger]);
-
-  const fetchSessions = async () => {
-    const token = localStorage.getItem("token");
-    if (!token) return;
-
-    try {
-      const res = await fetch(
-        "https://focusflow-vexk.onrender.com/api/sessions?limit=500",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (res.ok) {
-        const data = await res.json();
-        const sessions = data.sessions || data;
-        processSessionData(sessions);
-      }
-    } catch (err) {
-      console.error("Failed to fetch sessions:", err);
-    }
-  };
 
   const processSessionData = (sessions) => {
     const today = new Date();
     const days = [0, 0, 0, 0, 0, 0, 0];
-
     sessions.forEach((session) => {
       const sessionDate = new Date(session.completedAt);
-      const diffTime = today - sessionDate;
-      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-
+      const diffDays = Math.floor(
+        (today - sessionDate) / (1000 * 60 * 60 * 24)
+      );
       if (diffDays < 7 && diffDays >= 0) {
         const sessionDay = sessionDate.getDay();
         const index = sessionDay === 0 ? 6 : sessionDay - 1;
         days[index] += session.duration;
       }
     });
-
     setWeekData(days);
     const max = Math.max(...days, 10);
     setMaxValue(Math.ceil(max / 5) * 5);
   };
 
+  const fetchSessions = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    try {
+      const data = await api.getSessions(1, 500);
+      const sessions = data.sessions || data;
+      processSessionData(sessions);
+    } catch (err) {
+      console.error("Failed to fetch sessions:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchSessions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refreshTrigger]);
+
   const days = ["M", "T", "W", "Th", "F", "S", "Su"];
 
-  // Generate line path
   const generateLinePath = () => {
     const graphWidth = 100;
     const graphHeight = 100;
-    const padding = 0;
-    const stepX = (graphWidth - padding * 2) / (weekData.length - 1);
-
+    const stepX = graphWidth / (weekData.length - 1);
     const points = weekData.map((value, index) => {
-      const x = padding + index * stepX;
+      const x = index * stepX;
       const y = graphHeight - (value / maxValue) * graphHeight;
       return `${x},${y}`;
     });
-
     return `M ${points.join(" L ")}`;
   };
 
   return (
-    <div className="sessions-graph-container">
-      <h2>Sessions</h2>
+    <section
+      className="sessions-graph-container"
+      aria-labelledby="sessions-graph-heading"
+    >
+      <h3 id="sessions-graph-heading">This week</h3>
       <div className="graph-wrapper">
-        <div className="graph-y-axis">
+        <div className="graph-y-axis" aria-hidden="true">
           <span>{maxValue}</span>
-          <span>{maxValue / 2}</span>
+          <span>{Math.round(maxValue / 2)}</span>
           <span>0</span>
         </div>
         <div className="graph-area">
@@ -87,18 +74,20 @@ const SessionsGraph = ({ refreshTrigger }) => {
             viewBox="0 0 100 100"
             preserveAspectRatio="none"
             className="line-graph"
+            role="img"
+            aria-label={`Weekly focus minutes: ${weekData.join(", ")}`}
           >
             <path
               d={generateLinePath()}
               fill="none"
-              stroke="#1a1a2e"
+              stroke="var(--color-accent-600)"
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
               vectorEffect="non-scaling-stroke"
             />
           </svg>
-          <div className="graph-x-axis">
+          <div className="graph-x-axis" aria-hidden="true">
             {days.map((day) => (
               <span key={day} className="x-label">
                 {day}
@@ -107,16 +96,12 @@ const SessionsGraph = ({ refreshTrigger }) => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
 SessionsGraph.propTypes = {
   refreshTrigger: PropTypes.number,
-};
-
-SessionsGraph.defaultProps = {
-  refreshTrigger: 0,
 };
 
 export default SessionsGraph;

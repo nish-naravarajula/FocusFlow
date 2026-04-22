@@ -1,68 +1,76 @@
-.wrap {
-  width: 100%;
-  height: 90%;
-  padding-top: 10px;
+.tasks-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
 }
 
-.wrap .task-bar {
-  justify-content: left;
+.tasks-page-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
 }
 
-.task-holder {
-  background-color: #c9b489;
-  height: 98%;
-  padding: 20px;
-  overflow-y: scroll;
+.tasks-page-header h2 {
+  font-size: var(--text-2xl);
+  margin: 0;
 }
 
-.top {
+.tasks-page-controls {
   display: flex;
   align-items: center;
-  gap: 20px;
-  padding: 10px 20px;
+  gap: var(--space-4);
+  flex-wrap: wrap;
 }
 
-.task-count {
-  background: #a89a6e;
-  color: #1a1a2e;
-  padding: 6px 14px;
-  border-radius: 15px;
-  font-size: 0.9rem;
-  font-weight: 600;
+.tasks-page-count {
+  background: var(--color-accent-50);
+  color: var(--color-accent-700);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
 }
 
-.pagination {
+.tasks-page-body {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
   display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 15px;
-  margin-top: 20px;
-  padding: 15px;
-  background: #b8a978;
-  border-radius: 10px;
+  flex-direction: column;
+  gap: var(--space-4);
 }
 
-.pagination button {
-  padding: 8px 16px;
-  background: #a89a6e;
-  color: #1a1a2e;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.2s ease;
+.tasks-add-btn {
+  padding: var(--space-3) var(--space-5);
+  background: var(--color-success);
+  color: var(--color-success-text);
+  border-radius: var(--radius-md);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-sm);
+  transition:
+    background-color var(--transition-fast),
+    transform var(--transition-fast);
+  align-self: flex-start;
 }
 
-.pagination button:hover:not(:disabled) {
-  background: #8b7a5e;
+.tasks-add-btn:hover {
+  background: var(--color-success-hover);
+  transform: translateY(-1px);
 }
 
-.pagination button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.pagination span {
-  color: #1a1a2e;
-  font-size: 0.9rem;
+@media (max-width: 600px) {
+  .tasks-page {
+    padding: var(--space-4);
+  }
+  .tasks-add-btn {
+    width: 100%;
+    align-self: stretch;
+  }
 }

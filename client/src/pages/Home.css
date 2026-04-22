@@ -1,113 +1,152 @@
 .mainpage {
-  width: 100%;
-  height: 100%;
-  padding: 20px;
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(480px, 2fr) minmax(
+      220px,
+      1fr
+    );
+  gap: var(--space-5);
+  padding: var(--space-6);
+  align-items: start;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .column {
-  height: 100%;
   display: flex;
   flex-direction: column;
-}
-
-.late {
-  color: red;
-  font-weight: 600;
+  gap: var(--space-5);
+  min-width: 0;
 }
 
 .holder {
-  border: 3px dashed black;
-  border-radius: 20px;
-  padding: 10px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
 }
 
-.prog {
-  overflow: hidden;
+.column h2 {
+  font-size: var(--text-xl);
+  margin-bottom: var(--space-3);
+  color: var(--color-text);
+}
+
+.overview ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.overview li {
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-surface-alt);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+}
+
+.overview li.late {
+  background: var(--color-warning-bg);
+  color: var(--color-warning-hover);
+  font-weight: var(--weight-semibold);
+  border-left: 3px solid var(--color-warning);
+}
+
+.overview .overview-empty {
+  color: var(--color-text-muted);
+  font-style: italic;
+  font-size: var(--text-sm);
 }
 
 .stats {
-  margin-bottom: 10px;
-}
-
-.column .holder {
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
 }
 
 .tasks {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  flex: 1;
-  overflow-y: scroll;
-  background-color: #c9b489;
+  gap: var(--space-3);
+  max-height: 45vh;
+  overflow-y: auto;
+  padding-right: var(--space-1);
+}
+
+.home-add-btn,
+.home-more-btn {
+  display: block;
   width: 100%;
-  padding-top: 10px;
-}
-
-.more,
-.add {
+  padding: var(--space-3);
   text-align: center;
-  padding-bottom: 0;
+  background: var(--color-surface-alt);
+  color: var(--color-text);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-md);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-sm);
   text-decoration: none;
-  color: black;
-}
-
-.add {
   cursor: pointer;
-  user-select: none;
+  transition:
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast);
 }
 
-.stats {
-  flex: 0 0 auto;
+.home-add-btn:hover,
+.home-more-btn:hover {
+  background: var(--color-accent-50);
+  border-color: var(--color-accent-500);
+  color: var(--color-accent-700);
+  text-decoration: none;
 }
 
 .prog {
-  align-items: center;
-  padding: 0px;
+  align-items: stretch;
 }
 
-.prog-circle {
-  margin: 20px 0px;
-  width: 80%;
-  aspect-ratio: 1;
-  border: black 4px solid;
-  border-radius: 100%;
-}
-
-.task-items {
-  width: 100%;
-  height: 100%;
-  background-color: #c9b489;
-  overflow-y: scroll;
-  padding: 10px;
-}
-
-/* Custom Scrollbar - minimal line style */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
+  height: 8px;
 }
-
 ::-webkit-scrollbar-track {
   background: transparent;
 }
-
 ::-webkit-scrollbar-thumb {
-  background: #8b7a5e;
-  border-radius: 10px;
+  background: var(--color-border-strong);
+  border-radius: var(--radius-full);
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background: #6b5a4e;
+  background: var(--color-text-muted);
 }
-
-/* Firefox scrollbar */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #8b7a5e transparent;
+  scrollbar-color: var(--color-border-strong) transparent;
 }
 
-.overview {
-  overflow-y: auto;
-  flex: 1;
-  min-height: 0;
+/* Tablet — stack middle full width, keep 2 side columns */
+@media (max-width: 1100px) {
+  .mainpage {
+    grid-template-columns: 1fr 1fr;
+  }
+  .column:nth-child(2) {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Mobile — single column */
+@media (max-width: 700px) {
+  .mainpage {
+    grid-template-columns: 1fr;
+    padding: var(--space-4);
+  }
+  .column:nth-child(2) {
+    grid-column: auto;
+  }
 }

@@ -1,0 +1,111 @@
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 15, 26, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: var(--space-4);
+  animation: confirm-fade-in var(--transition-base);
+}
+
+@keyframes confirm-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.confirm-dialog {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: var(--space-8);
+  width: 100%;
+  max-width: 440px;
+  box-shadow: var(--shadow-lg);
+  animation: confirm-slide-up var(--transition-base);
+}
+
+@keyframes confirm-slide-up {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.confirm-title {
+  font-size: var(--text-xl);
+  margin-bottom: var(--space-3);
+  color: var(--color-text);
+}
+
+.confirm-message {
+  color: var(--color-text-muted);
+  font-size: var(--text-base);
+  line-height: var(--leading-snug);
+  margin-bottom: var(--space-6);
+}
+
+.confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+}
+
+.confirm-btn {
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-md);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-sm);
+  min-width: 100px;
+  transition:
+    background-color var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.confirm-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.confirm-btn-cancel {
+  background: var(--color-surface-alt);
+  color: var(--color-text);
+  border: 1px solid var(--color-border-strong);
+}
+
+.confirm-btn-cancel:hover {
+  background: var(--color-border);
+}
+
+.confirm-btn-danger {
+  background: var(--color-danger);
+  color: var(--color-danger-text);
+}
+
+.confirm-btn-danger:hover {
+  background: var(--color-danger-hover);
+}
+
+.confirm-btn-primary {
+  background: var(--color-success);
+  color: var(--color-success-text);
+}
+
+.confirm-btn-primary:hover {
+  background: var(--color-success-hover);
+}
+
+/* Honor reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .confirm-overlay,
+  .confirm-dialog {
+    animation: none;
+  }
+}

@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import TaskItem from "./task-item";
-import "./task-nav.css";
+import "./task-list.css";
 
 function TaskList({
   tasks,
@@ -9,24 +9,28 @@ function TaskList({
   toggleComplete,
   deleteTask,
 }) {
+  const visible = tasks.filter(filter1).filter(filter2);
+
+  if (visible.length === 0) {
+    return <p className="task-list-empty">No tasks to show.</p>;
+  }
+
   return (
-    <>
-      {tasks
-        .filter(filter1)
-        .filter(filter2)
-        .map((task) => (
+    <ul className="task-list">
+      {visible.map((task) => (
+        <li key={task.id} className="task-list-item">
           <TaskItem
-            key={task.id}
             name={task.name}
             desc={task.desc}
             type={task.type}
             datetime={task.due}
             done={task.done}
-            Finish={() => toggleComplete(task.id)}
-            Delete={() => deleteTask(task.id)}
+            onToggle={() => toggleComplete(task.id)}
+            onDelete={() => deleteTask(task.id)}
           />
-        ))}
-    </>
+        </li>
+      ))}
+    </ul>
   );
 }
 

@@ -1,6 +1,11 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import "./Register.css";
+import { api } from "../../api/client";
+import "./auth.css";
+
+const MAX_USERNAME = 30;
+const MAX_EMAIL = 100;
+const MAX_PASSWORD = 72;
 
 const Register = ({ onRegister, onSwitchToLogin }) => {
   const [username, setUsername] = useState("");
@@ -15,21 +20,7 @@ const Register = ({ onRegister, onSwitchToLogin }) => {
     setLoading(true);
 
     try {
-      const res = await fetch(
-        "https://focusflow-vexk.onrender.com/api/auth/register",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username, email, password }),
-        }
-      );
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.error || "Registration failed");
-      }
-
+      const data = await api.register({ username, email, password });
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
       onRegister(data.user);
@@ -41,51 +32,72 @@ const Register = ({ onRegister, onSwitchToLogin }) => {
   };
 
   return (
-    <div className="register-container">
-      <h2>Create Account</h2>
-      {error && <p className="error-message">{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="username">Username</label>
+    <section className="auth-card" aria-labelledby="register-heading">
+      <h2 id="register-heading" className="auth-heading">
+        Create your account
+      </h2>
+      <p className="auth-subtitle">
+        Start tracking focus sessions in under a minute.
+      </p>
+
+      {error && (
+        <p className="auth-error" role="alert">
+          {error}
+        </p>
+      )}
+
+      <form onSubmit={handleSubmit} noValidate>
+        <div className="auth-field">
+          <label htmlFor="register-username">Username</label>
           <input
             type="text"
-            id="username"
+            id="register-username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            maxLength={MAX_USERNAME}
+            autoComplete="username"
             required
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="email">Email</label>
+
+        <div className="auth-field">
+          <label htmlFor="register-email">Email</label>
           <input
             type="email"
-            id="email"
+            id="register-email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            maxLength={MAX_EMAIL}
+            autoComplete="email"
             required
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
+
+        <div className="auth-field">
+          <label htmlFor="register-password">Password</label>
           <input
             type="password"
-            id="password"
+            id="register-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            maxLength={MAX_PASSWORD}
+            autoComplete="new-password"
             required
           />
         </div>
-        <button type="submit" disabled={loading}>
-          {loading ? "Creating..." : "Register"}
+
+        <button type="submit" className="auth-submit" disabled={loading}>
+          {loading ? "Creating account…" : "Create account"}
         </button>
       </form>
-      <p className="switch-text">
+
+      <p className="auth-switch">
         Already have an account?{" "}
-        <button type="button" className="link-button" onClick={onSwitchToLogin}>
-          Login
+        <button type="button" className="auth-link" onClick={onSwitchToLogin}>
+          Log in
         </button>
       </p>
-    </div>
+    </section>
   );
 };
 

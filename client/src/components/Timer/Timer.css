@@ -1,110 +1,133 @@
 .timer-container {
-  max-width: 400px;
-  margin: 2rem auto;
-  padding: 2rem;
+  max-width: 440px;
+  margin: 0 auto;
+  padding: var(--space-8);
   text-align: center;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .timer-type-toggle {
   display: flex;
   justify-content: center;
-  gap: 1rem;
-  margin-bottom: 2rem;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+  background: var(--color-surface-alt);
+  padding: var(--space-1);
+  border-radius: var(--radius-full);
+  max-width: 220px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .timer-type-toggle button {
-  padding: 0.5rem 1.5rem;
-  border: 2px solid #4f46e5;
-  background: white;
-  color: #4f46e5;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1rem;
+  flex: 1;
+  padding: var(--space-2) var(--space-5);
+  border-radius: var(--radius-full);
+  color: var(--color-text-muted);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast);
 }
 
 .timer-type-toggle button.active {
-  background: #4f46e5;
-  color: white;
+  background: var(--color-surface);
+  color: var(--color-accent-700);
+  box-shadow: var(--shadow-sm);
 }
 
 .timer-display {
-  font-size: 5rem;
-  font-weight: bold;
-  color: #1f2937;
-  margin: 1rem 0;
+  font-family: var(--font-display);
+  font-size: var(--text-timer);
+  font-weight: var(--weight-bold);
+  color: var(--color-text);
+  letter-spacing: var(--tracking-tight);
+  margin: var(--space-6) 0;
+  font-variant-numeric: tabular-nums;
 }
 
-.timer-label {
-  margin-bottom: 1.5rem;
+.timer-label,
+.timer-duration {
+  margin-bottom: var(--space-5);
+  text-align: left;
 }
 
 .timer-label input {
   width: 100%;
-  padding: 0.75rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1rem;
   text-align: center;
 }
 
 .timer-duration {
-  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
 }
 
 .timer-duration label {
-  display: block;
-  margin-bottom: 0.5rem;
-  color: #6b7280;
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
 }
 
-.timer-duration input {
-  width: 80px;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1rem;
-  text-align: center;
+.timer-duration select {
+  flex: 1;
+  max-width: 180px;
+  cursor: pointer;
 }
 
 .timer-controls {
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
 }
 
-.timer-controls button {
-  padding: 0.75rem 2rem;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
+.timer-btn {
+  padding: var(--space-3) var(--space-8);
+  border-radius: var(--radius-md);
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  transition:
+    background-color var(--transition-fast),
+    transform var(--transition-fast);
+  min-width: 110px;
 }
 
-.start-btn {
-  background-color: #10b981;
-  color: white;
+.timer-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
 }
 
-.start-btn:hover {
-  background-color: #059669;
+.timer-btn-start {
+  background: var(--color-success);
+  color: var(--color-success-text);
 }
 
-.pause-btn {
-  background-color: #f59e0b;
-  color: white;
+.timer-btn-start:hover {
+  background: var(--color-success-hover);
 }
 
-.pause-btn:hover {
-  background-color: #d97706;
+.timer-btn-pause {
+  background: var(--color-warning);
+  color: var(--color-warning-text);
 }
 
-.reset-btn {
-  background-color: #ef4444;
-  color: white;
+.timer-btn-pause:hover {
+  background: var(--color-warning-hover);
 }
 
-.reset-btn:hover {
-  background-color: #dc2626;
+.timer-btn-reset {
+  background: var(--color-surface-alt);
+  color: var(--color-text);
+  border: 1px solid var(--color-border-strong);
+}
+
+.timer-btn-reset:hover {
+  background: var(--color-border);
 }
