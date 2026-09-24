@@ -183,6 +183,61 @@ Password: password123
 
 ---
 
+## Running the Backend with Docker
+
+The backend can be run as a Docker container instead of installing and running Node directly. The image packages the server and its dependencies so it runs the same way on any machine with Docker.
+
+> **Scope:** currently only the **backend** is containerized. The frontend is run directly via Vite (see *Frontend setup* above). A `docker-compose` setup that runs the client, server, and database together is planned.
+
+### Prerequisites
+
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running
+
+### How it's set up
+
+- The `Dockerfile` lives in `server/`. It starts from a Node base image, installs dependencies inside the image, copies the code, and runs `index.js` on port `5000`.
+- A `.dockerignore` in `server/` excludes `.env` and `node_modules`. This keeps secrets **out of the image** and lets the container install dependencies fresh for its own (Linux) environment.
+
+### Build the image
+
+From the `server/` folder:
+
+```bash
+cd server
+docker build -t focusflow-backend .
+```
+
+This reads the `Dockerfile` and produces an image named `focusflow-backend`.
+
+### Run the container
+
+Because `.env` is excluded from the image, secrets must be supplied **at run time**. The simplest option is to pass your existing `.env` file:
+
+```bash
+docker run -p 5000:5000 --env-file .env focusflow-backend
+```
+
+Or pass variables individually:
+
+```bash
+docker run -p 5000:5000 \
+  -e MONGO_URI="your_mongodb_connection_string" \
+  -e JWT_SECRET="your_jwt_secret_key" \
+  focusflow-backend
+```
+
+The API will be available at `http://localhost:5000`.
+
+- `-p 5000:5000` maps your machine's port `5000` to the container's port `5000`. To serve it on a different local port, change the left number (e.g. `-p 5001:5000` → `http://localhost:5001`).
+- Add `-d` to run detached (in the background); use `docker logs <container>` to view output and `docker stop <container>` to stop it.
+- Add `--name focusflow-backend` to give the container a stable name instead of a random one.
+
+### Security note
+
+Secrets are never baked into the image — the `.dockerignore` excludes `.env`, and the connection string and JWT secret are injected at run time. Keep `.env` listed in both `.dockerignore` (out of the image) and `.gitignore` (out of the repo).
+
+---
+
 ## Project Structure
 
 ```
@@ -213,6 +268,8 @@ FocusFlow/
 │   ├── middleware/                 # JWT auth middleware
 │   ├── routes/                     # auth, sessions, tasks
 │   ├── seed/                       # synthetic data generator
+│   ├── Dockerfile                  # backend container image definition
+│   ├── .dockerignore               # excludes .env and node_modules from the image
 │   ├── index.js
 │   ├── eslint.config.js
 │   └── package.json
